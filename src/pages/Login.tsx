@@ -32,7 +32,7 @@ const Login = () => {
   useEffect(() => {
     setButtonName("로그인");
     setButtonClickHandler(() => handleSubmit(onSubmit)());
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -79,9 +79,6 @@ const Login = () => {
   );
 };
 
-{
-  /* <SubmitButton onClick={handleSubmit(onSubmit)}>로그인</SubmitButton> */
-}
 export default Login;
 
 const Form = styled.form`

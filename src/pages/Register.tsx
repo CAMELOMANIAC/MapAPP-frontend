@@ -1,32 +1,60 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
 import RegisterProgress1 from "../components/RegisterProgress1";
 import RegisterProgress2 from "../components/RegisterProgress2";
+import AlertModal from "../components/AlertModal";
+import { createPortal } from "react-dom";
+import useAlertModal from "../utils/hooks/useAlertModal";
 
 export type FormType = {
   name: string;
   birthDay: number;
-  gender: string;
+  gender: number;
   emailLocal: string;
   emailDomain: string;
   authNumber: number;
-};
-export type FormTypeSecond = {
-  id: string;
-  pwd: string;
-  pwdCheck: string;
+  [key: string]: string | number;
 };
 
+export type FormTypeSecond = {
+  id: string;
+  nickName: string;
+  pwd: string;
+  pwdCheck: string;
+  [key: string]: string;
+};
+
+const getErrors = (errors: FieldErrors<FormType> | FieldErrors<FormTypeSecond>) => {
+  let error = "";
+  for (const key in errors) {
+    error = String(errors[key]?.message);
+  }
+  return error;
+};
 const Register = () => {
   const [progress, setProgress] = useState(0);
   const [isAuth, setIsAuth] = useState(false);
+  const [id, setId] = useState("");
+  const [nickName, setNickName] = useState("");
 
+  //레이아웃 커스텀훅
   const { setButtonName, setButtonClickHandler } = useBottomButtonLayoutStore((state) => ({
     setButtonName: state.setButtonName,
     setButtonClickHandler: state.setButtonClickHandler,
   }));
+
+  //다음으로
+  const onSubmit = (data: FormType) => {
+    console.log(data);
+    setProgress(1);
+  };
+
+  //회원가입
+  const onSubmitSecond = (data: FormTypeSecond) => {
+    console.log(data);
+  };
 
   useEffect(() => {
     if (progress === 0) {
@@ -34,38 +62,43 @@ const Register = () => {
       if (!isAuth) {
         setButtonClickHandler(() => {});
       } else {
-        setButtonClickHandler(() => handleSubmit(onSubmit)());
-        console.log("click");
+        setButtonClickHandler(() => {
+          handleSubmit(onSubmit)();
+        });
       }
     } else if (progress === 1) {
       setButtonName("회원가입");
       setButtonClickHandler(() => {});
     }
-  }, [progress, isAuth]);
+  }, [progress, isAuth, setButtonName, setButtonClickHandler]); //eslint-disable-line
 
+  //RegisterProgress1을 위한 useForm
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormType>({ mode: "onChange" });
+  } = useForm<FormType>({ mode: "onBlur" });
 
+  //RegisterProgress2을 위한 useForm
   const {
     register: registerSecond,
     handleSubmit: handleSubmitSecond,
     formState: { errors: errorsSecond },
     getValues,
-  } = useForm<FormTypeSecond>({ mode: "onChange" });
+  } = useForm<FormTypeSecond>();
 
-  //다음으로
-  const onSubmit = (data: any) => {
-    console.log(data);
-    setProgress(1);
-  };
-
-  //회원가입
-  const onSubmitSecond = (data: any) => {
-    console.log(data);
-  };
+  //모달 관리 커스텀후크
+  const { closeModal, isOpen, openModal } = useAlertModal();
+  useEffect(() => {
+    getErrors(errors) !== "" && openModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    errors.name?.message,
+    errors.birthDay?.message,
+    errors.gender?.message,
+    errors.emailDomain?.message,
+    errors.emailLocal?.message,
+  ]);
 
   return (
     <RegisterContainer>
@@ -90,7 +123,16 @@ const Register = () => {
           onSubmit={onSubmitSecond}
           register={registerSecond}
           getValues={getValues}
+          setId={setId}
+          setNickName={setNickName}
         />
+      )}
+      {createPortal(
+        <AlertModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+        >{`${getErrors(errors) !== "" ? getErrors(errors) : getErrors(errorsSecond)}`}</AlertModal>,
+        document.body
       )}
     </RegisterContainer>
   );
