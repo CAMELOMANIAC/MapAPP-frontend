@@ -48,11 +48,11 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
               required: { value: true, message: "이름을 입력해주세요" },
               pattern: {
                 value: /^[a-zA-Z가-힣\s'-]{2,50}$/,
-                message: "이름은 한글자 이상 50자 미만의 영어, 한국어만 허용합니다.",
+                message: "이름은 영문또는 한글로 2~50자 이내로 입력해주세요",
               },
             })}
             type="text"
-            placeholder="이름"
+            placeholder="이름을 입력해주세요"
             id="name"
           />
           {errors.name && <span>{errors.name.message}</span>}
@@ -70,18 +70,18 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
                   },
                 })}
                 type="number"
-                placeholder="******"
+                placeholder="6자리"
                 id="birthDay"
               />
             </InputDivider>
             <InputDivider width={10}>-</InputDivider>
-            <InputDivider width={10}>
+            <InputDivider width={15}>
               <Input
                 {...register("gender", {
                   required: { value: true, message: "주민번호 첫째자리를 입력해주세요" },
-                  pattern: {
-                    value: /^\d{1}$/,
-                    message: "알맞은 주민번호 형식이 아닙니다.",
+                  minLength: {
+                    value: 1,
+                    message: "주민번호 첫째 자리 숫자를 입력해주세요",
                   },
                 })}
                 type="number"
@@ -89,13 +89,12 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
                 id="gender"
               />
             </InputDivider>
-            <InputDivider width={35}>*****</InputDivider>
+            <InputDivider width={30}>*****</InputDivider>
           </InputContainer>
           {(errors.birthDay || errors.gender) && (
             <span>{errors.gender ? errors.gender.message : errors.birthDay && errors.birthDay.message}</span>
           )}
         </Label>
-
         <Label htmlFor="emailLocal">
           이메일
           <InputContainer>
@@ -104,11 +103,12 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
                 {...register("emailLocal", {
                   required: { value: true, message: "이메일 계정이름을 입력해주세요" },
                   pattern: {
-                    value: /.+/,
-                    message: "생년월일 6자리를 입력해주세요",
+                    value: /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/,
+                    message: "유효한 이메일 계정이름을 입력해주세요",
                   },
                 })}
                 type="string"
+                placeholder="*"
                 id="emailLocal"
               />
             </InputDivider>
