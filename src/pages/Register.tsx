@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
 import RegisterProgress1 from "../components/RegisterProgress1";
@@ -7,6 +6,8 @@ import RegisterProgress2 from "../components/RegisterProgress2";
 import AlertModal from "../components/AlertModal";
 import { createPortal } from "react-dom";
 import useAlertModal from "../utils/hooks/useAlertModal";
+import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
+import { getErrors } from "../utils/functions/commons";
 
 export type FormType = {
   name: string;
@@ -26,13 +27,6 @@ export type FormTypeSecond = {
   [key: string]: string;
 };
 
-const getErrors = (errors: FieldErrors<FormType> | FieldErrors<FormTypeSecond>) => {
-  let error = "";
-  for (const key in errors) {
-    error = String(errors[key]?.message);
-  }
-  return error;
-};
 const Register = () => {
   const [progress, setProgress] = useState(0);
   const [isAuth, setIsAuth] = useState(false);
@@ -77,7 +71,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormType>({ mode: "onBlur" });
+  } = useForm<FormType>({ mode: "onSubmit" });
 
   //RegisterProgress2을 위한 useForm
   const {
@@ -85,12 +79,12 @@ const Register = () => {
     handleSubmit: handleSubmitSecond,
     formState: { errors: errorsSecond },
     getValues,
-  } = useForm<FormTypeSecond>();
+  } = useForm<FormTypeSecond>({ mode: "onSubmit" });
 
   //모달 관리 커스텀후크
   const { closeModal, isOpen, openModal } = useAlertModal();
   useEffect(() => {
-    getErrors(errors) !== "" && openModal();
+    (getErrors(errors) !== "" || getErrors(errorsSecond) !== "") && openModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     errors.name?.message,
@@ -98,15 +92,19 @@ const Register = () => {
     errors.gender?.message,
     errors.emailDomain?.message,
     errors.emailLocal?.message,
+    errorsSecond.id?.message,
+    errorsSecond.nickName?.message,
+    errorsSecond.pwd?.message,
+    errorsSecond.pwdCheck?.message,
   ]);
 
   return (
-    <RegisterContainer>
-      <H1>
+    <PageContainer>
+      <PageTitleH1>
         henmy 이용을 위해
         <br />
         회원가입을 진행해주세요
-      </H1>
+      </PageTitleH1>
       {progress === 0 && (
         <RegisterProgress1
           handleSubmit={handleSubmit}
@@ -134,24 +132,8 @@ const Register = () => {
         >{`${getErrors(errors) !== "" ? getErrors(errors) : getErrors(errorsSecond)}`}</AlertModal>,
         document.body
       )}
-    </RegisterContainer>
+    </PageContainer>
   );
 };
 
 export default Register;
-
-const RegisterContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  margin-bottom: auto;
-`;
-
-const H1 = styled.h1`
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 2rem;
-`;
