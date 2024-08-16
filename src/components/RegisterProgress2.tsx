@@ -1,4 +1,4 @@
-import { Form, Input, InputDivider, Label } from "../assets/styles/CommonStyle";
+import { Form, Input, InputContainer, InputDivider, Label } from "../assets/styles/CommonStyle";
 import { FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { FormTypeSecond } from "../pages/Register";
 import { useEffect, useRef, useState } from "react";
@@ -96,7 +96,7 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
                       required: { value: true, message: "아이디를 입력해주세요" },
                       pattern: {
                         value: /^[a-zA-Z0-9][a-zA-Z0-9._-]{2,50}$/,
-                        message: "아이디는 50자의 영문, 숫자만 가능합니다.",
+                        message: "아이디는 2자에서 50자 사이 영문, 숫자만 가능합니다.",
                       },
                     })}
                     type="text"
@@ -123,10 +123,11 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
                 <InputDivider width={70}>
                   <Input
                     {...registerNickName("nickName", {
-                      required: { value: true, message: "아이디를 입력해주세요" },
+                      required: { value: true, message: "닉네임을 입력해주세요" },
                       pattern: {
-                        value: /^[a-zA-Z]{2,50}$/,
-                        message: "아이디는 2자 이상 50자 미만의 영어만 가능합니다.",
+                        value: /^[a-zA-Z0-9_-]{2,50}$/,
+                        message:
+                          "닉네임은 2자에서 50자 사이의 알파벳, 숫자, 밑줄(_) 및 하이픈(-)만 사용할 수 있습니다.",
                       },
                     })}
                     type="text"
@@ -152,13 +153,4 @@ export default RegisterProgress2;
 const FormContainer = styled.div`
   width: 100%;
   height: 100%;
-`;
-
-const InputContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
 `;

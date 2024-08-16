@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Form, Input, InputDivider, Label } from "../assets/styles/CommonStyle";
+import { Form, Input, InputContainer, InputDivider, Label } from "../assets/styles/CommonStyle";
 import { FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
@@ -96,7 +96,7 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
           )}
         </Label>
         <Label htmlFor="emailLocal">
-          이메일
+          이메일 주소
           <InputContainer>
             <InputDivider width={45}>
               <Input
@@ -108,7 +108,6 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
                   },
                 })}
                 type="string"
-                placeholder="*"
                 id="emailLocal"
               />
             </InputDivider>
@@ -174,15 +173,6 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
 };
 
 export default RegisterProgress1;
-
-const InputContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-`;
 
 const AuthContainer = styled.div`
   width: 100%;
