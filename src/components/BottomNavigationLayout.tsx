@@ -2,10 +2,6 @@ import { Outlet } from "react-router-dom"; //child route를 렌더링하는 컴�
 import BottomNavigationBar from "./BottomNavigationBar";
 import styled from "styled-components";
 
-const Container = styled.div`
-  margin-bottom: 60px; //하단 네비게이션 바를 위한 여백
-`;
-
 const BottomNavigationLayout = () => {
   return (
     <>
@@ -18,3 +14,11 @@ const BottomNavigationLayout = () => {
 };
 
 export default BottomNavigationLayout;
+
+const Container = styled.div`
+  padding-bottom: 60px; //하단 네비게이션 바를 위한 여백
+  background-color: black;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
