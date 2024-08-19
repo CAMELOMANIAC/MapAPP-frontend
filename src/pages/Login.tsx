@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Input, Label } from "../assets/styles/CommonStyle";
 import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
 import { useEffect } from "react";
+import { useUserDataStore } from "../utils/stores/userStore";
 
 type FormType = {
   id: string;
@@ -12,16 +13,21 @@ type FormType = {
 };
 
 const Login = () => {
+  const { setUserName } = useUserDataStore((state) => ({
+    setUserName: state.setUserName,
+  }));
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormType>({ mode: "onChange" });
+  } = useForm<FormType>({ mode: "onSubmit" });
 
   const naviage = useNavigate();
   const onSubmit = (data: any) => {
     console.log(data);
-    naviage("/home");
+    naviage("/");
+    setUserName(data.id);
   };
 
   const { setButtonName, setButtonClickHandler } = useBottomButtonLayoutStore((state) => ({
@@ -71,7 +77,9 @@ const Login = () => {
           {errors.pwd && <span>{errors.pwd.message}</span>}
         </Label>
         <EtcButtonContainer>
-          <Link to={"/account_recovery"}>아이디/비밀번호 찾기</Link>
+          <RecoveryContainer>
+            <Link to={"/account_recovery/id"}>아이디</Link>/<Link to={"/account_recovery/pwd"}>비밀번호 찾기</Link>
+          </RecoveryContainer>
           <Link to={"/register"}>회원가입</Link>
         </EtcButtonContainer>
       </InputContainer>
@@ -101,4 +109,11 @@ const EtcButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
+`;
+
+const RecoveryContainer = styled.span`
+  margin: 0;
+  a {
+    margin: 0 5px;
+  }
 `;
