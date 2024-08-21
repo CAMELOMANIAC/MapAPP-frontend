@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
 import RegisterProgress1 from "../components/RegisterProgress1";
 import RegisterProgress2 from "../components/RegisterProgress2";
 import AlertModal from "../components/AlertModal";
@@ -8,6 +7,8 @@ import { createPortal } from "react-dom";
 import useAlertModal from "../utils/hooks/useAlertModal";
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import { getErrors } from "../utils/functions/commons";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { LayoutButtonProps } from "../components/BottomButtonLayout";
 
 export type FormType = {
   name: string;
@@ -32,39 +33,42 @@ const Register = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [id, setId] = useState("");
   const [nickName, setNickName] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const navigate = useNavigate();
 
-  //레이아웃 커스텀훅
-  const { setButtonName, setButtonClickHandler } = useBottomButtonLayoutStore((state) => ({
-    setButtonName: state.setButtonName,
-    setButtonClickHandler: state.setButtonClickHandler,
-  }));
+  //레이아웃 컨텍스트
+  const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
+  useEffect(() => {
+    setButtonClickHandler(() => {});
+  }, [setButtonClickHandler]);
 
   //다음으로
   const onSubmit = (data: FormType) => {
     console.log(data);
-    setProgress(1);
+    if (isAuth) setProgress(1);
+    else {
+      setAlertMessage("본인인증을 진행해주세요");
+    }
   };
 
   //회원가입
   const onSubmitSecond = (data: FormTypeSecond) => {
-    console.log(data);
+    console.log("실행은되나요?", nickName);
+    if (nickName) {
+      console.log("왜실행이안되지", data);
+      navigate("/login");
+    }
   };
 
   useEffect(() => {
     if (progress === 0) {
       setButtonName("다음");
-      if (!isAuth) {
-        setButtonClickHandler(() => {});
-      } else {
-        setButtonClickHandler(() => {
-          handleSubmit(onSubmit)();
-        });
-      }
+      setButtonClickHandler(() => handleSubmit(onSubmit));
     } else if (progress === 1) {
       setButtonName("회원가입");
-      setButtonClickHandler(() => {});
+      setButtonClickHandler(() => handleSubmitSecond(onSubmitSecond));
     }
-  }, [progress, isAuth, setButtonName, setButtonClickHandler]); //eslint-disable-line
+  }, [progress, isAuth, setButtonName, setButtonClickHandler, id, nickName]); //eslint-disable-line
 
   //RegisterProgress1을 위한 useForm
   const {
@@ -83,8 +87,14 @@ const Register = () => {
 
   //모달 관리 커스텀후크
   const { closeModal, isOpen, openModal } = useAlertModal();
+  const modalCloseHandler = () => {
+    closeModal();
+    setAlertMessage("");
+  };
   useEffect(() => {
-    (getErrors(errors) !== "" || getErrors(errorsSecond) !== "") && openModal();
+    if (getErrors(errors) !== "" || getErrors(errorsSecond) !== "") {
+      setAlertMessage(getErrors(errors) !== "" ? getErrors(errors) : getErrors(errorsSecond));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     errors.name?.message,
@@ -97,6 +107,12 @@ const Register = () => {
     errorsSecond.pwd?.message,
     errorsSecond.pwdCheck?.message,
   ]);
+
+  useEffect(() => {
+    if (alertMessage !== "") {
+      openModal();
+    }
+  }, [alertMessage, openModal]);
 
   return (
     <PageContainer>
@@ -112,6 +128,7 @@ const Register = () => {
           onSubmit={onSubmit}
           register={register}
           setIsAuth={setIsAuth}
+          setAlertMessage={setAlertMessage}
         />
       )}
       {progress === 1 && (
@@ -126,10 +143,9 @@ const Register = () => {
         />
       )}
       {createPortal(
-        <AlertModal
-          isOpen={isOpen}
-          closeModal={closeModal}
-        >{`${getErrors(errors) !== "" ? getErrors(errors) : getErrors(errorsSecond)}`}</AlertModal>,
+        <AlertModal isOpen={isOpen} closeModal={modalCloseHandler}>
+          {alertMessage}
+        </AlertModal>,
         document.body
       )}
     </PageContainer>

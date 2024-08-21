@@ -30,21 +30,21 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
     register: registerId,
     handleSubmit: handleSubmitId,
     formState: { errors: errorsId },
-  } = useForm<FormTypeSecond>({ mode: "onChange" });
+  } = useForm<FormTypeSecond>({ mode: "onSubmit" });
 
   const {
     register: registerNickName,
     handleSubmit: handleSubmitNickName,
     formState: { errors: errorsNickName },
-  } = useForm<FormTypeSecond>({ mode: "onChange" });
+  } = useForm<FormTypeSecond>({ mode: "onSubmit" });
 
   const onIdSubmit = (data: any) => {
-    console.log(data);
-    setId(data.id);
+    console.log(data.id);
+    setId(String(data.id));
   };
   const onNickNameSubmit = (data: any) => {
-    console.log(data);
-    setNickName(data.nickName);
+    console.log(data.nickName);
+    setNickName(String(data.nickName));
   };
 
   return (
@@ -105,7 +105,7 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
                   />
                 </InputDivider>
                 <InputDivider width={30}>
-                  <button onClick={() => {}}>중복확인</button>
+                  <button type="submit">중복확인</button>
                 </InputDivider>
               </InputContainer>
               {errorsId.id && <span>{errorsId.id.message}</span>}
@@ -136,10 +136,10 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
                   />
                 </InputDivider>
                 <InputDivider width={30}>
-                  <button onClick={() => {}}>중복확인</button>
+                  <button type="submit">중복확인</button>
                 </InputDivider>
-                {errorsNickName.nickName && <span>{errorsNickName.nickName.message}</span>}
               </InputContainer>
+              {errorsNickName.nickName && <span>{errorsNickName.nickName.message}</span>}
             </Label>
           </Form>,
           nickNameContainerRef.current

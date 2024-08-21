@@ -1,33 +1,19 @@
 import { Outlet } from "react-router-dom";
-import { create } from "zustand";
 import styled from "styled-components";
+import { useState } from "react";
 
-type StoreType = {
-  buttonName: string;
+export type LayoutButtonProps = {
   setButtonName: (name: string) => void;
-  buttonClickHandler: () => void;
   setButtonClickHandler: (handler: () => void) => void;
 };
 
-/**
- * BottomButtonLayout 에서 사용하는 Store
- */
-export const useBottomButtonLayoutStore = create<StoreType>((set) => ({
-  buttonName: "Button",
-  setButtonName: (name: string) => set({ buttonName: name }),
-  buttonClickHandler: () => {},
-  setButtonClickHandler: (handler: () => void) => set({ buttonClickHandler: handler }),
-}));
-
 const BottomButtonLayout = () => {
-  const { buttonName, buttonClickHandler } = useBottomButtonLayoutStore((state) => ({
-    buttonName: state.buttonName,
-    buttonClickHandler: state.buttonClickHandler,
-  }));
+  const [buttonName, setButtonName] = useState("Button");
+  const [buttonClickHandler, setButtonClickHandler] = useState<() => void>(() => {});
 
   return (
     <Container>
-      <Outlet />
+      <Outlet context={{ setButtonName, setButtonClickHandler }} />
       <Button onClick={buttonClickHandler}>{buttonName}</Button>
     </Container>
   );

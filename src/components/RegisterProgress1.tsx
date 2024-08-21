@@ -14,9 +14,10 @@ type PropsType = {
   register: UseFormRegister<FormType>;
   errors: FieldErrors<FormType>;
   setIsAuth: (isAuth: boolean) => void;
+  setAlertMessage: (message: string) => void;
 };
 
-const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth }: PropsType) => {
+const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth, setAlertMessage }: PropsType) => {
   const [isAuthPortalVisible, setIsAuthPortalVisible] = useState(false);
   const authContainerRef = useRef<HTMLDivElement>(null);
 
@@ -33,9 +34,11 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
   const onAuthSubmit = (data: any) => {
     console.log(data);
     setIsAuth(true);
+    setAlertMessage("본인인증이 완료되었습니다");
   };
   const onAuthresend = () => {
     console.log("resend");
+    setAlertMessage("인증번호가 재전송되었습니다");
   };
 
   return (

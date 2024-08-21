@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Input, Label } from "../assets/styles/CommonStyle";
-import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
 import { useEffect } from "react";
 import { useUserDataStore } from "../utils/stores/userStore";
+import { LayoutButtonProps } from "../components/BottomButtonLayout";
 
 type FormType = {
   id: string;
@@ -30,14 +30,12 @@ const Login = () => {
     setUserName(data.id);
   };
 
-  const { setButtonName, setButtonClickHandler } = useBottomButtonLayoutStore((state) => ({
-    setButtonName: state.setButtonName,
-    setButtonClickHandler: state.setButtonClickHandler,
-  }));
+  //레이아웃 컨텍스트
+  const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
 
   useEffect(() => {
     setButtonName("로그인");
-    setButtonClickHandler(() => handleSubmit(onSubmit)());
+    setButtonClickHandler(() => handleSubmit(onSubmit));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
