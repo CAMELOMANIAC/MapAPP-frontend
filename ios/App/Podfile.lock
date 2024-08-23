@@ -1,0 +1,28 @@
+PODS:
+  - Capacitor (6.1.2):
+    - CapacitorCordova
+  - CapacitorCordova (6.1.2)
+  - CapacitorPluginIosWebviewConfigurator (0.0.1):
+    - Capacitor
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - CapacitorPluginIosWebviewConfigurator (from `../../node_modules/capacitor-plugin-ios-webview-configurator`)
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorPluginIosWebviewConfigurator:
+    :path: "../../node_modules/capacitor-plugin-ios-webview-configurator"
+
+SPEC CHECKSUMS:
+  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
+  CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
+  CapacitorPluginIosWebviewConfigurator: 4090b21ed635a5676718436bbbf386191d077271
+
+PODFILE CHECKSUM: d8c2f40fd5c679911d895f7560a43fbd586e6e3d
+
+COCOAPODS: 1.15.2

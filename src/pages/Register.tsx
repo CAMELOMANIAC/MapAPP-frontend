@@ -9,6 +9,7 @@ import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import { getErrors } from "../utils/functions/commons";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { LayoutButtonProps } from "../components/BottomButtonLayout";
+import { setBackForwardNavigationGestures } from "capacitor-plugin-ios-webview-configurator";
 
 export type FormType = {
   name: string;
@@ -35,6 +36,13 @@ const Register = () => {
   const [nickName, setNickName] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setBackForwardNavigationGestures(true);
+    return () => {
+      setBackForwardNavigationGestures(false);
+    };
+  }, []);
 
   //레이아웃 컨텍스트
   const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
