@@ -50,7 +50,7 @@ const Home = () => {
           zoom: 14,
         }}
         // onMove={(event) => {setViewState(event.viewState)}}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/mapbox/outdoors-v11"
       >
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />

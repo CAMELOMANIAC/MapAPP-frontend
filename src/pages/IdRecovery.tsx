@@ -46,6 +46,7 @@ const IdRecovery = () => {
   //아이디 찾기 버튼 클릭시
   const onSubmit = (data: FormType) => {
     console.log(data);
+    setAlertMessage("아이디는\n가나다\n입니다.");
   };
 
   //모달 관리 커스텀후크
@@ -68,7 +69,9 @@ const IdRecovery = () => {
   ]);
 
   useEffect(() => {
-    openModal();
+    if (alertMessage !== "") {
+      openModal();
+    }
   }, [alertMessage, openModal]);
 
   return (
