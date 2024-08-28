@@ -15,7 +15,7 @@ const BottomNavigationBar = () => {
 export default BottomNavigationBar;
 
 const Container = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   height: 60px;

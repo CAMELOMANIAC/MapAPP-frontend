@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: "henmy-front",
   webDir: "build",
   ios: {
-    contentInset: "always",
+    contentInset: "never",
     backgroundColor: "#ffffff",
     allowsLinkPreview: false,
   },
