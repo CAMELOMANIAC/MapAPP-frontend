@@ -12,3 +12,23 @@ export const getErrors = <T extends FieldValues>(errors: FieldErrors<T>) => {
   }
   return error;
 };
+
+/**
+ * @Description 현재 디바이스가 모바일인지 확인하는 함수
+ *
+ * @returns boolean
+ */
+export const isMobile = () => {
+  const userAgent = navigator.userAgent;
+  return /android|iPad|iPhone|iPod/i.test(userAgent);
+};
+
+/**
+ * @Description 현재 디바이스가 애플기기인지 확인하는 함수
+ *
+ * @returns boolean
+ */
+export const isApple = () => {
+  const userAgent = navigator.userAgent;
+  return /iPad|iPhone|iPod/i.test(userAgent);
+};
