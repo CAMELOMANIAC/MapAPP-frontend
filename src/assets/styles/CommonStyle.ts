@@ -15,6 +15,13 @@ export const Input = styled.input`
   margin-top: 10px;
 `;
 
+export const Textarea = styled.textarea`
+  width: 100%;
+  height: 10rem;
+  padding: 10px;
+  margin-top: 10px;
+`;
+
 export const InputDivider = styled.div<{ width: number }>`
   width: ${(props) => props.width}%;
 `;
