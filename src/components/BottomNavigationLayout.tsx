@@ -17,7 +17,7 @@ export default BottomNavigationLayout;
 
 const Container = styled.div`
   padding-bottom: 60px; //하단 네비게이션 바를 위한 여백
-  background-color: black;
   width: 100%;
   height: 100%;
+  padding: 20px;
 `;
