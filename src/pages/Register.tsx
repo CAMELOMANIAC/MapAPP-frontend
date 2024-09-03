@@ -6,7 +6,7 @@ import AlertModal from "../components/AlertModal";
 import { createPortal } from "react-dom";
 import useAlertModal from "../utils/hooks/useAlertModal";
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
-import { getErrors } from "../utils/functions/commons";
+import { getErrors, isApple } from "../utils/functions/commons";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { LayoutButtonProps } from "../components/BottomButtonLayout";
 import { setBackForwardNavigationGestures } from "capacitor-plugin-ios-webview-configurator";
@@ -38,9 +38,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setBackForwardNavigationGestures(true);
+    isApple() && setBackForwardNavigationGestures(true);
     return () => {
-      setBackForwardNavigationGestures(false);
+      isApple() && setBackForwardNavigationGestures(false);
     };
   }, []);
 
