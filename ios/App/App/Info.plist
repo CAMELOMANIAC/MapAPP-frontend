@@ -51,6 +51,8 @@
 	<string>사진을 추가하기 위해 사진 저장소 권한이 필요합니다</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>사진을 사용하기 위해 사진 저장소 권한이 필요합니다</string>
+	<key>NSMotionUsageDescription</key>
+	<string>사진을 찍은 방향 정보를 얻기 위해 가속도계 권한이 필요합니다</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
