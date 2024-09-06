@@ -1,5 +1,5 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Form, Label, PageContainer, Textarea } from "../assets/styles/CommonStyle";
 import { getErrors, isMobile } from "../utils/functions/commons";
@@ -9,6 +9,7 @@ import AlertModal from "../components/AlertModal";
 import { createPortal } from "react-dom";
 import { IoMdCamera } from "react-icons/io";
 import { AiFillPicture } from "react-icons/ai";
+import EXIF from "exif-js";
 
 type FormType = {
   content: string;
@@ -17,6 +18,7 @@ type FormType = {
 const Write = () => {
   const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
   const [alertMessage, setAlertMessage] = useState("");
+  const exifRef = useRef();
 
   const {
     register,
@@ -38,13 +40,12 @@ const Write = () => {
   const takePhoto = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: false,
+      allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera, // 기본 카메라앱 실행
     });
 
     image.dataUrl && setPhoto(image.dataUrl);
-
     // 실제 이미지 파일 경로 반환시
     // const image = await Camera.getPhoto({
     //   quality: 90,
@@ -61,7 +62,7 @@ const Write = () => {
     try {
       const image = await Camera.getPhoto({
         quality: 90,
-        allowEditing: false,
+        allowEditing: true,
         resultType: CameraResultType.DataUrl,
         source: CameraSource.Photos, // 갤러리에서 사진 선택
       });
@@ -70,13 +71,29 @@ const Write = () => {
     } catch (error) {
       if (error instanceof Error && error.message === "User cancelled photos app") {
         if (!isMobile) {
-          //웹에서 사진 선택 취소시 오류를 던지는데, 이를 핸들링하기위한 비워놓음
+          //웹에서 사진 선택 취소시 오류를 던지는데, 웹에서는 몇가지 기능이 없어서 오류를 던지지만 기능상 상관없기 때문에 비워놓음
         }
       } else {
         console.error(error);
       }
     }
   };
+
+  useEffect(() => {
+    if (photo) {
+      // EXIF 데이터 읽기
+      const img = new Image();
+      img.src = photo;
+      img.onload = () => {
+        EXIF.getData(photo, (el: HTMLImageElement) => {
+          const allMetaData = EXIF.getAllTags(el);
+          exifRef.current = allMetaData;
+          console.log("모든태그", allMetaData.exif);
+          console.log("이쁘게", EXIF.pretty(el));
+        });
+      };
+    }
+  }, [photo]);
 
   //모달 관리 커스텀후크
   const { closeModal, isOpen, openModal } = useAlertModal();
@@ -90,6 +107,7 @@ const Write = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors.content?.message]);
+
   useEffect(() => {
     if (alertMessage !== "") {
       openModal();
