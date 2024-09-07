@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useBottomButtonLayoutStore } from "../components/BottomButtonLayout";
+import { useOutletContext } from "react-router-dom";
+import { LayoutButtonProps } from "../components/BottomButtonLayout";
 const AccountRecovery = () => {
-  const { setButtonName, setButtonClickHandler } = useBottomButtonLayoutStore((state) => ({
-    setButtonName: state.setButtonName,
-    setButtonClickHandler: state.setButtonClickHandler,
-  }));
+  //레이아웃 컨텍스트
+  const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
 
   useEffect(() => {
     setButtonName("확인");
