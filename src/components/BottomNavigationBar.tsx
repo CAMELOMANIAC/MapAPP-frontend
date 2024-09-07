@@ -5,9 +5,9 @@ const BottomNavigationBar = () => {
   return (
     <Container>
       <StyledNavLink to="/">홈</StyledNavLink>
-      <StyledNavLink to="/chat">채팅</StyledNavLink>
+      <StyledNavLink to="/location">위치</StyledNavLink>
+      <StyledNavLink to="/write">글쓰기</StyledNavLink>
       <StyledNavLink to="/mypage">마이페이지</StyledNavLink>
-      <StyledNavLink to="/setting">설정</StyledNavLink>
     </Container>
   );
 };
