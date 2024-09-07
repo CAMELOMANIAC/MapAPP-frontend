@@ -50,18 +50,28 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     padding: 0;
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a:focus {
+    outline: none;
   }
 
   /* button 태그 기본 스타일 제거 */
   button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus {
+    outline: none;
+  }
 `;
 
 export default GlobalStyle;
