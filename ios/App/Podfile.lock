@@ -8,6 +8,8 @@ PODS:
     - Capacitor
   - CapacitorPluginIosWebviewConfigurator (0.0.1):
     - Capacitor
+  - CapacitorSplashScreen (6.0.2):
+    - Capacitor
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -15,6 +17,7 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - CapacitorNativeCompass (from `../../node_modules/capacitor-native-compass`)
   - CapacitorPluginIosWebviewConfigurator (from `../../node_modules/capacitor-plugin-ios-webview-configurator`)
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -27,6 +30,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/capacitor-native-compass"
   CapacitorPluginIosWebviewConfigurator:
     :path: "../../node_modules/capacitor-plugin-ios-webview-configurator"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
 
 SPEC CHECKSUMS:
   Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
@@ -34,7 +39,8 @@ SPEC CHECKSUMS:
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
   CapacitorNativeCompass: 8cc6bed47ec38eaf85ac69452a57c5f7bd28544f
   CapacitorPluginIosWebviewConfigurator: 4090b21ed635a5676718436bbbf386191d077271
+  CapacitorSplashScreen: 250df9ef8014fac5c7c1fd231f0f8b1d8f0b5624
 
-PODFILE CHECKSUM: e104a9d2eb68a16bb2b4df60e08a4eadffad38ce
+PODFILE CHECKSUM: 0bb1fa0f3435ac56c0a635f36d4e5b90ba6351a8
 
 COCOAPODS: 1.15.2
