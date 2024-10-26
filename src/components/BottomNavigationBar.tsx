@@ -1,13 +1,29 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { GoHomeFill } from "react-icons/go";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 const BottomNavigationBar = () => {
   return (
     <Container>
-      <StyledNavLink to="/">홈</StyledNavLink>
-      <StyledNavLink to="/location">위치</StyledNavLink>
-      <StyledNavLink to="/write">글쓰기</StyledNavLink>
-      <StyledNavLink to="/mypage">마이페이지</StyledNavLink>
+      <StyledNavLink to="/">
+        <GoHomeFill />
+        <p>홈</p>
+      </StyledNavLink>
+      <StyledNavLink to="/location">
+        <FaLocationDot />
+        <p>위치</p>
+      </StyledNavLink>
+      <StyledNavLink to="/search">
+        <FaSearch />
+        <p>검색</p>
+      </StyledNavLink>
+      <StyledNavLink to="/mypage">
+        <FaUser />
+        <p>마이페이지</p>
+      </StyledNavLink>
     </Container>
   );
 };
@@ -28,8 +44,15 @@ const Container = styled.div`
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   color: black;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   &.active {
     font-weight: bold;
     color: blue;
+  }
+  & > p {
+    font-size: 12px;
   }
 `;
