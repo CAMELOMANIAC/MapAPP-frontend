@@ -9,9 +9,10 @@ import PwdRecovery from "./pages/PwdRecovery";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Write = lazy(() => import("./pages/Write"));
-const Mypage = lazy(() => import("./pages/Mypage"));
+const Search = lazy(() => import("./pages/Search"));
 const Location = lazy(() => import("./pages/Location"));
+const Mypage = lazy(() => import("./pages/Mypage"));
+const Write = lazy(() => import("./pages/Write"));
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
           <Route path="/" element={<BottomNavigationLayout />}>
             <Route index element={<Home />} />
             <Route path="/location" element={<Location />} />
-            <Route path="/write" element={<Write />} />
+            <Route path="/Search" element={<Search />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/write" element={<Write />} />
           </Route>
           <Route path="/login" element={<BottomButtonLayout />}>
             <Route index element={<Login />} />

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import useGetGeolocation from "../utils/hooks/useGetGeolocation";
 import useGooglePlaceData from "../utils/hooks/useGooglePlaceData";
 import MapMarker from "../components/MapMarker";
+import { Link } from "react-router-dom";
 
 const storage = window.localStorage;
 
@@ -69,12 +70,12 @@ const Location = () => {
         onMoveEnd={onMoveEndHandler}
       >
         {isSuccess &&
-          data?.places.map((item: any) => (
+          data?.places.map((item: any, index: number) => (
             <MapMarker
               latitude={item.location.latitude}
               longitude={item.location.longitude}
               displayName={item.displayName.text}
-              key={item.displayName.text}
+              key={item.displayName.text + index}
             />
           ))}
         {storage.getItem("photo") && ( //테스트용 마커(서버가 아니라 로컬스토리지에서 가져옴)
@@ -88,6 +89,7 @@ const Location = () => {
         )}
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />
+        <Link to={"/write"}>글쓰기</Link>
       </Map>
     </>
   );
