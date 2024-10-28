@@ -5,6 +5,7 @@ import BottomButtonLayout from "./components/BottomButtonLayout";
 import IdRecovery from "./pages/IdRecovery";
 import NotFound from "./pages/NotFound";
 import PwdRecovery from "./pages/PwdRecovery";
+import LoadingScreen from "./components/LoadingScreen";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -17,7 +18,7 @@ const Write = lazy(() => import("./pages/Write"));
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<BottomNavigationLayout />}>
             <Route index element={<Home />} />
