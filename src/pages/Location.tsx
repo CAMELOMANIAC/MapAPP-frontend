@@ -70,7 +70,7 @@ const Location = () => {
         onMoveEnd={onMoveEndHandler}
       >
         {isSuccess &&
-          data?.places.map((item: any, index: number) => (
+          data?.places?.map((item: any, index: number) => (
             <MapMarker
               latitude={item.location.latitude}
               longitude={item.location.longitude}
