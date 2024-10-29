@@ -115,8 +115,9 @@ const LoadingScreen = ({ ...props }) => {
 export default LoadingScreen;
 
 const Container = styled.div`
-  left: 0;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   position: fixed;
   flex-direction: row;
