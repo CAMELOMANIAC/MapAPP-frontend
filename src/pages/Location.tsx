@@ -89,7 +89,9 @@ const Location = () => {
         )}
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />
-        <Link to={"/write"}>글쓰기</Link>
+        <Link to={"/write"} style={{ zIndex: 10, position: "relative" }}>
+          글쓰기
+        </Link>
       </Map>
     </>
   );
@@ -98,7 +100,7 @@ const Location = () => {
 export default Location;
 
 const TestButtons = styled.button`
-  position: absolute;
+  position: relative;
   z-index: 1;
 `;
 

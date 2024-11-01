@@ -4,10 +4,8 @@ import LoginProgress from "../components/LoginProgress";
 import { Link } from "react-router-dom";
 const Login = () => {
   return (
-    <>
-      <PageContainer>
-        <PageTitleH1>로그인을 진행해주세요</PageTitleH1>
-      </PageContainer>
+    <PageContainer>
+      <PageTitleH1>로그인을 진행해주세요</PageTitleH1>
       <LoginProgress></LoginProgress>
       <EtcButtonContainer>
         <RecoveryContainer>
@@ -16,7 +14,7 @@ const Login = () => {
         <Link to={"/register"}>회원가입</Link>
       </EtcButtonContainer>
       <Link to={"/write"}>테스트이동</Link>
-    </>
+    </PageContainer>
   );
 };
 

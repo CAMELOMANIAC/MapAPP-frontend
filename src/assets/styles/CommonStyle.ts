@@ -4,8 +4,10 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: end;
   width: 100%;
   height: 100%;
+  margin-bottom: 4rem;
 `;
 
 export const Input = styled.input`
@@ -13,6 +15,7 @@ export const Input = styled.input`
   height: 3rem;
   padding: 10px;
   margin-top: 10px;
+  border: 1px solid black;
 `;
 
 export const Textarea = styled.textarea`
@@ -28,7 +31,6 @@ export const InputDivider = styled.div<{ width: number }>`
 
 export const Label = styled.label`
   width: 100%;
-  height: 100%;
   margin: 1rem 0;
 `;
 
@@ -43,6 +45,7 @@ export const InputContainer = styled.div`
 
 export const PageContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
