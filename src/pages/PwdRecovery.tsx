@@ -105,15 +105,7 @@ const IdRecovery = () => {
       {progress === 0 ? (
         <>
           <PageTitleH1>Henmy 비밀번호를 찾을게요</PageTitleH1>
-
-          <RegisterProgress1
-            handleSubmit={handleSubmit}
-            errors={errors}
-            onSubmit={onSubmit}
-            register={register}
-            setIsAuth={setIsAuth}
-            setAlertMessage={setAlertMessage}
-          />
+          <RegisterProgress1 setAlertMessage={setAlertMessage} setProgress={setProgress} />
         </>
       ) : (
         <>

@@ -82,14 +82,8 @@ const IdRecovery = () => {
         본인인증을 진행해주세요
       </PageTitleH1>
 
-      <RegisterProgress1
-        handleSubmit={handleSubmit}
-        errors={errors}
-        onSubmit={onSubmit}
-        register={register}
-        setIsAuth={setIsAuth}
-        setAlertMessage={setAlertMessage}
-      />
+      <RegisterProgress1 setAlertMessage={setAlertMessage} />
+
       {createPortal(
         <AlertModal isOpen={isOpen} closeModal={modalCloseHandler}>
           {alertMessage}
