@@ -1,45 +1,62 @@
 import { useEffect, useRef, useState } from "react";
 import { Form, Input, InputContainer, InputDivider, Label } from "../assets/styles/CommonStyle";
-import { FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
-import { FormType } from "../pages/Register";
+import { useOutletContext } from "react-router-dom";
+import { LayoutButtonProps } from "./BottomButtonLayout";
+import AuthNumberForm from "./AuthNumberForm";
 
-type AuthFormType = {
+type RegisterProgress1Type = {
+  setProgress?: React.Dispatch<React.SetStateAction<number>>;
+  setAlertMessage: React.Dispatch<React.SetStateAction<string>>;
+};
+type FormType = {
+  name: string;
+  birthDay: number;
+  gender: number;
+  emailLocal: string;
+  emailDomain: string;
   authNumber: number;
-};
-type PropsType = {
-  handleSubmit: UseFormHandleSubmit<FormType, undefined>;
-  onSubmit: (data: any) => void;
-  register: UseFormRegister<FormType>;
-  errors: FieldErrors<FormType>;
-  setIsAuth: (isAuth: boolean) => void;
-  setAlertMessage: (message: string) => void;
+  [key: string]: string | number;
 };
 
-const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth, setAlertMessage }: PropsType) => {
+const RegisterProgress1 = ({ setProgress, setAlertMessage }: RegisterProgress1Type) => {
+  const [isAuth, setIsAuth] = useState(false);
+  //레이아웃 컨텍스트
+  const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
+
+  useEffect(() => {
+    setButtonName("다음");
+    setButtonClickHandler(() => handleSubmit(onSubmit));
+    return () => {
+      setButtonName("");
+      setButtonClickHandler(() => {});
+    };
+  }, [isAuth, setButtonName, setButtonClickHandler]); //eslint-disable-line
+
+  //다음으로
+  const onSubmit = (data: FormType) => {
+    console.log(data);
+    if (isAuth && setProgress) setProgress(1);
+    else {
+      setAlertMessage("본인인증을 진행해주세요");
+    }
+  };
+
+  //RegisterProgress1을 위한 useForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormType>({ mode: "onSubmit" });
+
   const [isAuthPortalVisible, setIsAuthPortalVisible] = useState(false);
   const authContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (authContainerRef.current) setIsAuthPortalVisible(true);
   }, []);
-
-  const {
-    register: authRegister,
-    handleSubmit: authHandleSubmit,
-    formState: { errors: authErrors },
-  } = useForm<AuthFormType>();
-
-  const onAuthSubmit = (data: any) => {
-    console.log(data);
-    setIsAuth(true);
-    setAlertMessage("본인인증이 완료되었습니다");
-  };
-  const onAuthresend = () => {
-    console.log("resend");
-    setAlertMessage("인증번호가 재전송되었습니다");
-  };
 
   return (
     <>
@@ -144,31 +161,7 @@ const RegisterProgress1 = ({ handleSubmit, onSubmit, register, errors, setIsAuth
       {isAuthPortalVisible &&
         authContainerRef.current &&
         createPortal(
-          <Form onSubmit={authHandleSubmit(onAuthSubmit)}>
-            <Label htmlFor="authNumber">
-              인증번호
-              <InputContainer>
-                <InputDivider width={70}>
-                  <Input
-                    {...authRegister("authNumber", {
-                      required: { value: true, message: "인증번호를 입력해주세요" },
-                      pattern: {
-                        value: /^\d{8}$/,
-                        message: "숫자 8자리를 입력해주세요",
-                      },
-                    })}
-                    type="string"
-                    id="authNumber"
-                  />
-                </InputDivider>
-                <InputDivider width={30}>
-                  <button type="submit">확인</button>
-                </InputDivider>
-              </InputContainer>
-              {authErrors.authNumber && <span>{authErrors.authNumber.message}</span>}
-            </Label>
-            <ReSendButton onClick={onAuthresend}>재전송</ReSendButton>
-          </Form>,
+          <AuthNumberForm setAlertMessage={setAlertMessage} setIsAuth={setIsAuth} />,
           authContainerRef.current
         )}
     </>
@@ -179,12 +172,5 @@ export default RegisterProgress1;
 
 const AuthContainer = styled.div`
   width: 100%;
-  height: 100%;
-`;
-
-const ReSendButton = styled.button`
-  width: 100%;
-  height: rem;
-  border: 1px solid #000;
-  margin-bottom: 1rem;
+  height: min-content;
 `;

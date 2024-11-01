@@ -1,50 +1,75 @@
-import { Form, Input, InputContainer, InputDivider, Label } from "../assets/styles/CommonStyle";
-import { FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
-import { FormTypeSecond } from "../pages/Register";
-import { useEffect, useRef, useState } from "react";
+import { Form, Input, Label } from "../assets/styles/CommonStyle";
+import { useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { LayoutButtonProps } from "./BottomButtonLayout";
+import DuplicateForm from "./DuplicateForm";
 
-type PropsType = {
-  handleSubmit: UseFormHandleSubmit<FormTypeSecond, undefined>;
-  onSubmit: (data: any) => void;
-  register: UseFormRegister<FormTypeSecond>;
-  errors: FieldErrors<FormTypeSecond>;
-  getValues: (value: string) => string;
-  setId: (id: string) => void;
-  setNickName: (nickName: string) => void;
+type RegisterProgress2Type = {
+  setAlertMessage: Dispatch<SetStateAction<string>>;
 };
 
-const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues, setId, setNickName }: PropsType) => {
+type FormType = {
+  id: string;
+  nickName: string;
+  pwd: string;
+  pwdCheck: string;
+  [key: string]: string;
+};
+
+const RegisterProgress2 = ({ setAlertMessage }: RegisterProgress2Type) => {
   const idContainerRef = useRef<HTMLDivElement>(null);
   const nickNameContainerRef = useRef<HTMLDivElement>(null);
   const [idPortalVisible, setIdPortalVisible] = useState(false);
   const [nickNamePortalVisible, setNickNamePortalVisible] = useState(false);
+  const navigate = useNavigate();
+  const [isDuplicateId, setIsDuplicateId] = useState(false);
+  const [isDuplicateNickName, setIsDuplicateNickName] = useState(false);
+
+  //레이아웃 컨텍스트
+  const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();
+
+  //회원가입
+  const onSubmit = (data: FormType) => {
+    console.log("실행은되나요?", data);
+    if (isDuplicateId && isDuplicateNickName) {
+      navigate("/login");
+    } else {
+      setAlertMessage("아이디와 닉네임 중복확인을 진행해주세요");
+    }
+  };
+
+  useEffect(() => {
+    setButtonName("회원가입");
+    setButtonClickHandler(() => handleSubmit(onSubmit));
+    return () => {
+      setButtonName("");
+      setButtonClickHandler(() => {});
+    };
+  }, [setButtonName, setButtonClickHandler]); //eslint-disable-line
+
+  //RegisterProgress2을 위한 useForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<FormType>({ mode: "onSubmit" });
 
   useEffect(() => {
     if (idContainerRef.current) setIdPortalVisible(true);
     if (nickNameContainerRef.current) setNickNamePortalVisible(true);
   }, []);
 
-  const {
-    register: registerId,
-    handleSubmit: handleSubmitId,
-    formState: { errors: errorsId },
-  } = useForm<FormTypeSecond>({ mode: "onSubmit" });
-
-  const {
-    register: registerNickName,
-    handleSubmit: handleSubmitNickName,
-    formState: { errors: errorsNickName },
-  } = useForm<FormTypeSecond>({ mode: "onSubmit" });
-
   const onIdSubmit = (data: any) => {
     console.log(data.id);
-    setId(String(data.id));
+    setIsDuplicateId(true);
   };
   const onNickNameSubmit = (data: any) => {
     console.log(data.nickName);
-    setNickName(String(data.nickName));
+    setIsDuplicateNickName(true);
   };
 
   return (
@@ -86,62 +111,41 @@ const RegisterProgress2 = ({ handleSubmit, onSubmit, register, errors, getValues
       {idPortalVisible &&
         idContainerRef.current &&
         createPortal(
-          <Form onSubmit={handleSubmitId(onIdSubmit)}>
-            <Label htmlFor="id">
-              아이디
-              <InputContainer>
-                <InputDivider width={70}>
-                  <Input
-                    {...registerId("id", {
-                      required: { value: true, message: "아이디를 입력해주세요" },
-                      pattern: {
-                        value: /^[a-zA-Z0-9][a-zA-Z0-9._-]{2,50}$/,
-                        message: "아이디는 2자에서 50자 사이 영문, 숫자만 가능합니다.",
-                      },
-                    })}
-                    type="text"
-                    placeholder="사용할 아이디를 입력해주세요"
-                    id="id"
-                  />
-                </InputDivider>
-                <InputDivider width={30}>
-                  <button type="submit">중복확인</button>
-                </InputDivider>
-              </InputContainer>
-              {errorsId.id && <span>{errorsId.id.message}</span>}
-            </Label>
-          </Form>,
+          <DuplicateForm
+            buttonName="중복확인"
+            inputId="id"
+            inputType="string"
+            labelName="아이디"
+            onSubmit={onIdSubmit}
+            option={{
+              required: { value: true, message: "아이디를 입력해주세요" },
+              pattern: {
+                value: /^[a-zA-Z0-9][a-zA-Z0-9._-]{2,50}$/,
+                message: "아이디는 2자에서 50자 사이 영문, 숫자만 가능합니다.",
+              },
+            }}
+            placeHolder="로그인에 사용할 아이디를 입력해주세요"
+          ></DuplicateForm>,
           idContainerRef.current
         )}
       {nickNamePortalVisible &&
         nickNameContainerRef.current &&
         createPortal(
-          <Form onSubmit={handleSubmitNickName(onNickNameSubmit)}>
-            <Label htmlFor="nickName">
-              닉네임
-              <InputContainer>
-                <InputDivider width={70}>
-                  <Input
-                    {...registerNickName("nickName", {
-                      required: { value: true, message: "닉네임을 입력해주세요" },
-                      pattern: {
-                        value: /^[a-zA-Z0-9_-]{2,50}$/,
-                        message:
-                          "닉네임은 2자에서 50자 사이의 알파벳, 숫자, 밑줄(_) 및 하이픈(-)만 사용할 수 있습니다.",
-                      },
-                    })}
-                    type="text"
-                    placeholder="상대방에게 보여지는 이름이에요"
-                    id="nickName"
-                  />
-                </InputDivider>
-                <InputDivider width={30}>
-                  <button type="submit">중복확인</button>
-                </InputDivider>
-              </InputContainer>
-              {errorsNickName.nickName && <span>{errorsNickName.nickName.message}</span>}
-            </Label>
-          </Form>,
+          <DuplicateForm
+            buttonName="중복확인"
+            inputId="nickName"
+            inputType="string"
+            labelName="닉네임"
+            onSubmit={onNickNameSubmit}
+            option={{
+              required: { value: true, message: "닉네임을 입력해주세요" },
+              pattern: {
+                value: /^[a-zA-Z0-9_-]{2,50}$/,
+                message: "닉네임은 2자에서 50자 사이의 알파벳, 숫자, 밑줄(_) 및 하이픈(-)만 사용할 수 있습니다.",
+              },
+            }}
+            placeHolder="상대방에게 보여지는 이름이에요"
+          ></DuplicateForm>,
           nickNameContainerRef.current
         )}
     </>
@@ -152,5 +156,4 @@ export default RegisterProgress2;
 
 const FormContainer = styled.div`
   width: 100%;
-  height: 100%;
 `;
