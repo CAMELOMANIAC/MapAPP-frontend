@@ -3,9 +3,30 @@ import { useUserDataStore } from "../utils/stores/userStore";
 import Map, { Marker, NavigationControl, useMap, ViewStateChangeEvent } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import styled from "styled-components";
-import { getGooglePlaceData } from "../utils/functions/api";
-import { useQuery } from "@tanstack/react-query";
-import { IoMdCamera } from "react-icons/io";
+import useGetGeolocation from "../utils/hooks/useGetGeolocation";
+import useGooglePlaceData from "../utils/hooks/useGooglePlaceData";
+import MapMarker from "../components/MapMarker";
+import { Link } from "react-router-dom";
+
+const storage = window.localStorage;
+
+const DirectionArrow = styled.div<{ direction: string }>`
+  width: 4px;
+  height: 100px;
+  background-color: aqua;
+  rotate: ${(props) => props.direction}deg;
+  transform-origin: bottom center;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 5px 0 5px;
+    border-style: solid;
+    border-color: aqua transparent transparent transparent;
+  }
+`;
 
 const Location = () => {
   const { setLocation, location, mapCenter, setMapCenter } = useUserDataStore((state) => ({
@@ -27,32 +48,13 @@ const Location = () => {
     }
   };
 
-  //웹 gps를 이용하여 현재 위치를 가져옴
+  const { location: currentLocation } = useGetGeolocation();
   useEffect(() => {
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setLocation({ latitude, longitude, zoom: 14 });
-          },
-          (error) => {
-            console.error("Error Code = " + error.code + " - " + error.message);
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-      }
-    };
-    getLocation();
-  }, [setLocation]);
+    if (currentLocation) setLocation(currentLocation);
+  }, [currentLocation, setLocation]);
 
   //현재 위치가 변경되면 구글 플레이스 API를 이용하여 주변 명소 데이터를 가져옴(테스트를 위해 현재위치를 기반으로 하나 나중에 맵 중앙을 기반으로 변경해야함)
-  const { data, isSuccess } = useQuery({
-    queryKey: ["googlePlaceData", location.latitude, location.longitude],
-    queryFn: () => getGooglePlaceData(location.latitude, location.longitude),
-    staleTime: 1000 * 60,
-  });
+  const { data, isSuccess } = useGooglePlaceData(location.latitude, location.longitude);
 
   return (
     <>
@@ -68,15 +70,28 @@ const Location = () => {
         onMoveEnd={onMoveEndHandler}
       >
         {isSuccess &&
-          data &&
-          data.places.map((item: any) => (
-            <Marker latitude={item.location.latitude} longitude={item.location.longitude} key={item.displayName.text}>
-              <IoMdCamera />
-              {item.displayName.text}
-            </Marker>
+          data?.places?.map((item: any, index: number) => (
+            <MapMarker
+              latitude={item.location.latitude}
+              longitude={item.location.longitude}
+              displayName={item.displayName.text}
+              key={item.displayName.text + index}
+            />
           ))}
+        {storage.getItem("photo") && ( //테스트용 마커(서버가 아니라 로컬스토리지에서 가져옴)
+          <Marker
+            latitude={JSON.parse(storage.getItem("photo")!).location.latitude}
+            longitude={JSON.parse(storage.getItem("photo")!).location.longitude}
+          >
+            <DirectionArrow direction={JSON.parse(storage.getItem("photo")!).photoDirection}></DirectionArrow>
+            <img src={JSON.parse(storage.getItem("photo")!).photo} width={12} height={12} alt="사진" />
+          </Marker>
+        )}
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />
+        <Link to={"/write"} style={{ zIndex: 10, position: "relative" }}>
+          글쓰기
+        </Link>
       </Map>
     </>
   );
@@ -85,7 +100,7 @@ const Location = () => {
 export default Location;
 
 const TestButtons = styled.button`
-  position: absolute;
+  position: relative;
   z-index: 1;
 `;
 

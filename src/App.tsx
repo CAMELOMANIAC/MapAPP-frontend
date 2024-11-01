@@ -1,45 +1,57 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import BottomNavigationLayout from "./components/BottomNavigationLayout";
 import { lazy, Suspense } from "react";
 import BottomButtonLayout from "./components/BottomButtonLayout";
 import IdRecovery from "./pages/IdRecovery";
 import NotFound from "./pages/NotFound";
 import PwdRecovery from "./pages/PwdRecovery";
+import LoadingScreen from "./components/LoadingScreen";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Write = lazy(() => import("./pages/Write"));
-const Mypage = lazy(() => import("./pages/Mypage"));
+const Search = lazy(() => import("./pages/Search"));
 const Location = lazy(() => import("./pages/Location"));
+const Mypage = lazy(() => import("./pages/Mypage"));
+const Write = lazy(() => import("./pages/Write"));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <BottomNavigationLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "location", element: <Location /> },
+      { path: "search", element: <Search /> },
+      { path: "mypage", element: <Mypage /> },
+      { path: "write", element: <Write /> },
+    ],
+  },
+  {
+    path: "/login",
+    element: <BottomButtonLayout />,
+    children: [{ index: true, element: <Login /> }],
+  },
+  {
+    path: "/register",
+    element: <BottomButtonLayout />,
+    children: [{ index: true, element: <Register /> }],
+  },
+  {
+    path: "/account_recovery",
+    element: <BottomButtonLayout />,
+    children: [
+      { path: "id", element: <IdRecovery /> },
+      { path: "pwd", element: <PwdRecovery /> },
+    ],
+  },
+  { path: "*", element: <NotFound /> },
+]);
 
 function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<BottomNavigationLayout />}>
-            <Route index element={<Home />} />
-            <Route path="/location" element={<Location />} />
-            <Route path="/write" element={<Write />} />
-            <Route path="/mypage" element={<Mypage />} />
-          </Route>
-          <Route path="/login" element={<BottomButtonLayout />}>
-            <Route index element={<Login />} />
-          </Route>
-          <Route path="/register" element={<BottomButtonLayout />}>
-            <Route index element={<Register />} />
-          </Route>
-          <Route path="/account_recovery" element={<BottomButtonLayout />}>
-            {/* <Route index element={<AccountRecovery />} /> */}
-            <Route path="id" element={<IdRecovery />} />
-            <Route path="pwd" element={<PwdRecovery />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense fallback={<LoadingScreen />}>
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }
-
 export default App;

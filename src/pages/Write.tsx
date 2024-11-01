@@ -11,10 +11,13 @@ import { IoMdCamera } from "react-icons/io";
 import { AiFillPicture } from "react-icons/ai";
 import EXIF from "exif-js";
 import useCompassData from "../utils/hooks/useCompassData";
+import { useUserDataStore } from "../utils/stores/userStore";
 
 type FormType = {
   content: string;
 };
+
+const storage = window.localStorage;
 
 const Write = () => {
   const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
@@ -22,6 +25,9 @@ const Write = () => {
   const exifRef = useRef();
   const heading = useCompassData();
   const [photoDirection, setPhotoDirection] = useState<number>();
+  const { location } = useUserDataStore((state) => ({
+    location: state.location,
+  }));
 
   const {
     register,
@@ -34,6 +40,10 @@ const Write = () => {
       data.photo = photo;
       //이미지가 있으면 data에 photo라는 키로 base64로 인코딩된 이미지를 추가(일반적이라면 이미지를 이미지 서버에 저장하고 그 경로를 업로드 해야하지만 지금은 base64로 인코딩된 이미지 문자열 업로드)
       console.log("Form Data:", data, "사진방향", photoDirection);
+      storage.setItem(
+        "photo",
+        JSON.stringify({ photo: data.photo, photoDirection: photoDirection, location: location })
+      );
     } else {
       setAlertMessage("이미지를 업로드 해야합니다");
     }
