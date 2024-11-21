@@ -1,32 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserDataStore } from "../utils/stores/userStore";
-import Map, { Marker, NavigationControl, useMap, ViewStateChangeEvent } from "react-map-gl";
+import Map, { MapMouseEvent, Marker, NavigationControl, useMap, ViewStateChangeEvent } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import styled from "styled-components";
+import styled, { WebTarget } from "styled-components";
 import useGetGeolocation from "../utils/hooks/useGetGeolocation";
 import useGooglePlaceData from "../utils/hooks/useGooglePlaceData";
 import MapMarker from "../components/MapMarker";
-import { Link } from "react-router-dom";
+import WriteButton from "../components/WriteButton";
 
 const storage = window.localStorage;
-
-const DirectionArrow = styled.div<{ direction: string }>`
-  width: 4px;
-  height: 100px;
-  background-color: aqua;
-  rotate: ${(props) => props.direction}deg;
-  transform-origin: bottom center;
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px 5px 0 5px;
-    border-style: solid;
-    border-color: aqua transparent transparent transparent;
-  }
-`;
 
 const Location = () => {
   const { setLocation, location, mapCenter, setMapCenter } = useUserDataStore((state) => ({
@@ -35,6 +17,9 @@ const Location = () => {
     mapCenter: state.mapCenter,
     setMapCenter: state.setMapCenter,
   }));
+
+  const [markerPos, setMarkerPos] = useState({ latitude: 0, longitude: 0 });
+  const [isPress, setIsPress] = useState(false);
 
   //현재 보고있는 위치를 가져와서 렌더링 종료후에도 다시 사용할수있도록 저장
   const onMoveEndHandler = (event: ViewStateChangeEvent) => {
@@ -48,6 +33,14 @@ const Location = () => {
     }
   };
 
+  const onMouseMoveHandler = (e: MapMouseEvent) => {
+    if (isPress) {
+      const { lng, lat } = e.lngLat;
+      setMarkerPos({ latitude: lat, longitude: lng });
+    }
+  };
+
+  //현재위치를 맵에 적용
   const { location: currentLocation } = useGetGeolocation();
   useEffect(() => {
     if (currentLocation) setLocation(currentLocation);
@@ -55,10 +48,9 @@ const Location = () => {
 
   //현재 위치가 변경되면 구글 플레이스 API를 이용하여 주변 명소 데이터를 가져옴(테스트를 위해 현재위치를 기반으로 하나 나중에 맵 중앙을 기반으로 변경해야함)
   const { data, isSuccess } = useGooglePlaceData(location.latitude, location.longitude);
-
   return (
     <>
-      <Map
+      <CustomMap
         reuseMaps
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         initialViewState={{
@@ -68,6 +60,11 @@ const Location = () => {
         }}
         mapStyle="mapbox://styles/mapbox/outdoors-v11"
         onMoveEnd={onMoveEndHandler}
+        onMouseMove={onMouseMoveHandler}
+        onMouseUp={() => {
+          setIsPress(false);
+        }}
+        $isPress={isPress}
       >
         {isSuccess &&
           data?.places?.map((item: any, index: number) => (
@@ -89,10 +86,13 @@ const Location = () => {
         )}
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />
-        <Link to={"/write"} style={{ zIndex: 10, position: "relative" }}>
-          글쓰기
-        </Link>
-      </Map>
+        <WriteButton
+          onMouseDown={() => {
+            setIsPress(true);
+          }}
+        ></WriteButton>
+        <Marker latitude={markerPos.latitude} longitude={markerPos.longitude}></Marker>
+      </CustomMap>
     </>
   );
 };
@@ -126,3 +126,25 @@ const TestMapButton = ({ location }: TestMapButtonProps) => {
 
   return <TestButtons onClick={onClickHandler}>현재 위치로</TestButtons>;
 };
+
+const CustomMap = styled(Map)<{ $isPress: boolean }>`
+  cursor: ${(props) => (props.$isPress ? "default" : "grabbing !important")};
+`;
+
+const DirectionArrow = styled.div<{ direction: string }>`
+  width: 4px;
+  height: 100px;
+  background-color: aqua;
+  rotate: ${(props) => props.direction}deg;
+  transform-origin: bottom center;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 5px 0 5px;
+    border-style: solid;
+    border-color: aqua transparent transparent transparent;
+  }
+`;
