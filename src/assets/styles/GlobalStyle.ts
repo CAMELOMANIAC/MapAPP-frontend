@@ -72,6 +72,9 @@ const GlobalStyle = createGlobalStyle`
   button:focus {
     outline: none;
   }
+  :root{
+    --thema-color:rgb(210, 67, 67);
+  }
 `;
 
 export default GlobalStyle;

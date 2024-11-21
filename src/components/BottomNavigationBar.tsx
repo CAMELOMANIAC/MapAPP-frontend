@@ -50,7 +50,7 @@ const StyledNavLink = styled(NavLink)`
   align-items: center;
   &.active {
     font-weight: bold;
-    color: blue;
+    color: var(--thema-color);
   }
   & > p {
     font-size: 12px;
