@@ -20,10 +20,15 @@ const router = createBrowserRouter([
     element: <BottomNavigationLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "location", element: <Location /> },
+      {
+        path: "location",
+        children: [
+          { index: true, element: <Location /> },
+          { path: "write", element: <Write /> },
+        ],
+      },
       { path: "search", element: <Search /> },
       { path: "mypage", element: <Mypage /> },
-      { path: "write", element: <Write /> },
     ],
   },
   {
