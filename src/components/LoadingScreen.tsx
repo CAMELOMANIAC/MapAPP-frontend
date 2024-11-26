@@ -115,22 +115,23 @@ const LoadingScreen = ({ ...props }) => {
 export default LoadingScreen;
 
 const Container = styled.div`
+  position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  z-index: 1000;
   display: flex;
-  position: fixed;
   flex-direction: row;
   justify-content: center;
   overflow: hidden;
-  z-index: 1000;
   background-color: white;
   transition: opacity 0.5s;
+  transform: translateX(-50%);
 
   &.hide {
-    opacity: 0;
     pointer-events: none;
+    opacity: 0;
   }
+
   &.show {
     opacity: 1;
   }
@@ -139,8 +140,8 @@ const MarqueeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  rotate: -30deg;
   transform-origin: 100% 0%;
+  rotate: -30deg;
 `;
 
 const WordItem = ({ text, scrollSpeed }: { text: string; scrollSpeed: number }) => {

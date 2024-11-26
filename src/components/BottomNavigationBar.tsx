@@ -33,25 +33,27 @@ export default BottomNavigationBar;
 const Container = styled.div`
   position: absolute;
   bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   width: 100%;
   height: 60px;
   background-color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const StyledNavLink = styled(NavLink)`
-  text-decoration: none;
-  color: black;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  color: black;
+  text-decoration: none;
+
   &.active {
     font-weight: bold;
     color: var(--thema-color);
   }
+
   & > p {
     font-size: 12px;
   }

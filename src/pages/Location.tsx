@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useUserDataStore } from "../utils/stores/userStore";
 import Map, { MapMouseEvent, Marker, NavigationControl, useMap, ViewStateChangeEvent } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import styled, { WebTarget } from "styled-components";
+import styled from "styled-components";
 import useGetGeolocation from "../utils/hooks/useGetGeolocation";
 import useGooglePlaceData from "../utils/hooks/useGooglePlaceData";
 import MapMarker from "../components/MapMarker";
 import WriteButton from "../components/WriteButton";
+import MarkerDraggableButton from "../components/MarkerDraggableButton";
 
 const storage = window.localStorage;
 
@@ -18,7 +19,7 @@ const Location = () => {
     setMapCenter: state.setMapCenter,
   }));
 
-  const [markerPos, setMarkerPos] = useState({ latitude: 0, longitude: 0 });
+  const [markerPos, setMarkerPos] = useState<{ latitude: number; longitude: number } | undefined>();
   const [isPress, setIsPress] = useState(false);
 
   //현재 보고있는 위치를 가져와서 렌더링 종료후에도 다시 사용할수있도록 저장
@@ -50,7 +51,7 @@ const Location = () => {
   const { data, isSuccess } = useGooglePlaceData(location.latitude, location.longitude);
   return (
     <>
-      <CustomMap
+      <Map
         reuseMaps
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         initialViewState={{
@@ -64,7 +65,6 @@ const Location = () => {
         onMouseUp={() => {
           setIsPress(false);
         }}
-        $isPress={isPress}
       >
         {isSuccess &&
           data?.places?.map((item: any, index: number) => (
@@ -86,13 +86,16 @@ const Location = () => {
         )}
         <NavigationControl position="top-right" />
         <TestMapButton location={location} />
-        <WriteButton
-          onMouseDown={() => {
-            setIsPress(true);
-          }}
-        ></WriteButton>
-        <Marker latitude={markerPos.latitude} longitude={markerPos.longitude}></Marker>
-      </CustomMap>
+        <MarkerButtonContainer>
+          <MarkerDraggableButton
+            onMouseDown={() => {
+              setIsPress(true);
+            }}
+          ></MarkerDraggableButton>
+          <WriteButton to={"/location/write"} state={markerPos} isVisible={markerPos !== undefined}></WriteButton>
+        </MarkerButtonContainer>
+        {markerPos && <Marker latitude={markerPos.latitude} longitude={markerPos.longitude}></Marker>}
+      </Map>
     </>
   );
 };
@@ -127,24 +130,30 @@ const TestMapButton = ({ location }: TestMapButtonProps) => {
   return <TestButtons onClick={onClickHandler}>현재 위치로</TestButtons>;
 };
 
-const CustomMap = styled(Map)<{ $isPress: boolean }>`
-  cursor: ${(props) => (props.$isPress ? "default" : "grabbing !important")};
-`;
-
 const DirectionArrow = styled.div<{ direction: string }>`
   width: 4px;
   height: 100px;
   background-color: aqua;
-  rotate: ${(props) => props.direction}deg;
   transform-origin: bottom center;
+  rotate: ${(props) => props.direction}deg;
+
   &::after {
-    content: "";
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px 5px 0 5px;
+    content: "";
+    border-color: aqua transparent transparent;
     border-style: solid;
-    border-color: aqua transparent transparent transparent;
+    border-width: 10px 5px 0;
+    transform: translateX(-50%);
   }
+`;
+
+const MarkerButtonContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 2rem;
 `;

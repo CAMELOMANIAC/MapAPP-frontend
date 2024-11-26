@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserDataStore } from "../utils/stores/userStore";
+import SearchBar from "../components/SearchBar";
+import { Link } from "react-router-dom";
+import ListContainer from "../components/ListContainer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,7 +18,19 @@ const Home = () => {
     }
   }, [navigate, userName]);
 
-  return <></>;
+  return (
+    <>
+      <Link to={"/search"}>
+        <SearchBar></SearchBar>
+      </Link>
+      <ListContainer>
+        <div>안녕하세요</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+      </ListContainer>
+    </>
+  );
 };
 
 export default Home;

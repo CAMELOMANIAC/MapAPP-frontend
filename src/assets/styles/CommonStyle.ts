@@ -35,26 +35,26 @@ export const Label = styled.label`
 `;
 
 export const InputContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
-  text-align: center;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
 `;
 
 export const PageContainer = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   margin-bottom: auto;
 `;
 
 export const PageTitleH1 = styled.h1`
-  font-size: 1.5rem;
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-bottom: 2rem;
+  font-size: 1.5rem;
 `;

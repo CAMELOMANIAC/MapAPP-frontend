@@ -80,15 +80,15 @@ const LoginProgress = () => {
 export default LoginProgress;
 
 const Form = styled.form`
-  width: 100%;
-  flex-grow: 1;
   display: flex;
-  justify-content: flex-end;
+  flex-grow: 1;
   flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const InputContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;

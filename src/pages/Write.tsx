@@ -12,6 +12,7 @@ import { AiFillPicture } from "react-icons/ai";
 import EXIF from "exif-js";
 import useCompassData from "../utils/hooks/useCompassData";
 import { useUserDataStore } from "../utils/stores/userStore";
+import { useLocation } from "react-router-dom";
 
 type FormType = {
   content: string;
@@ -28,6 +29,9 @@ const Write = () => {
   const { location } = useUserDataStore((state) => ({
     location: state.location,
   }));
+  const locat = useLocation();
+  const { state } = locat;
+  console.log("state", state);
 
   const {
     register,
@@ -141,15 +145,17 @@ export default Write;
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const PageTitleH1Ins = styled.h1`
   margin: 0;
 `;
 
-const SubmitButton = styled.button``;
+const SubmitButton = styled.button`
+  display: flex;
+`;
 
 const FormContainer = styled.div`
   display: flex;
@@ -159,10 +165,10 @@ const FormContainer = styled.div`
 `;
 
 const InputContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 const PhotoButtonContainer = styled.div`
   display: flex;

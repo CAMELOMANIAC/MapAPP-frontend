@@ -21,6 +21,6 @@ const Container = styled.div<{ $location: string }>`
   width: 100%;
   height: 100%;
   padding: ${(props) => (props.$location === "/location" ? "0" : "20px")};
+  padding-bottom: 60px; /* 하단 네비게이션 바를 위한 여백 */
   background-color: #f8f8f8;
-  padding-bottom: 60px; //하단 네비게이션 바를 위한 여백
 `;

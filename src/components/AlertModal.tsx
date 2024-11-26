@@ -7,35 +7,35 @@ type ModalBackgroundProps = {
 
 const ModalBackground = styled.div<ModalBackgroundProps>`
   position: fixed;
-  display: ${(props) => (props.$visible ? "flex" : "none")};
-  justify-content: center;
-  align-items: center;
   top: 0;
+  display: ${(props) => (props.$visible ? "flex" : "none")};
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgb(0 0 0 / 50%);
 `;
 
 const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 80%;
   background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 `;
 
 const ModalMessageContainer = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 1rem;
 `;
 
 const ModalButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 1rem;
 `;
 
