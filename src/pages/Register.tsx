@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import RegisterProgress1 from "../components/RegisterProgress1";
-import RegisterProgress2 from "../components/RegisterProgress2";
-import AlertModal from "../components/AlertModal";
+import RegisterProgress1 from "../components/container/RegisterProgress1";
+import RegisterProgress2 from "../components/container/RegisterProgress2";
+import AlertModal from "../components/ui/AlertModal";
 import { createPortal } from "react-dom";
 import useAlertModal from "../utils/hooks/useAlertModal";
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";

@@ -1,11 +1,11 @@
-import { Form, Input, Label } from "../assets/styles/CommonStyle";
+import { Form, Input, Label } from "../../assets/styles/CommonStyle";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { LayoutButtonProps } from "./BottomButtonLayout";
-import DuplicateForm from "./DuplicateForm";
+import { LayoutButtonProps } from "../layouts/BottomButtonLayout";
+import DuplicateForm from "../forms/DuplicateForm";
 
 type RegisterProgress2Type = {
   setAlertMessage: Dispatch<SetStateAction<string>>;

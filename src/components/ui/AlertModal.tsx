@@ -5,6 +5,27 @@ type ModalBackgroundProps = {
   $visible: boolean;
 };
 
+type Props = {
+  children: ReactNode;
+  isOpen: boolean;
+  closeModal: MouseEventHandler;
+};
+
+const AlertModal = ({ children, isOpen, closeModal }: Props) => {
+  return (
+    <ModalBackground onClick={closeModal} $visible={isOpen}>
+      <ModalContainer>
+        <ModalMessageContainer>{children}</ModalMessageContainer>
+        <ModalButtonContainer>
+          <button onClick={closeModal}>확인</button>
+        </ModalButtonContainer>
+      </ModalContainer>
+    </ModalBackground>
+  );
+};
+
+export default AlertModal;
+
 const ModalBackground = styled.div<ModalBackgroundProps>`
   position: fixed;
   top: 0;
@@ -38,24 +59,3 @@ const ModalButtonContainer = styled.div`
   justify-content: center;
   padding: 1rem;
 `;
-
-type Props = {
-  children: ReactNode;
-  isOpen: boolean;
-  closeModal: MouseEventHandler;
-};
-
-const AlertModal = ({ children, isOpen, closeModal }: Props) => {
-  return (
-    <ModalBackground onClick={closeModal} $visible={isOpen}>
-      <ModalContainer>
-        <ModalMessageContainer>{children}</ModalMessageContainer>
-        <ModalButtonContainer>
-          <button onClick={closeModal}>확인</button>
-        </ModalButtonContainer>
-      </ModalContainer>
-    </ModalBackground>
-  );
-};
-
-export default AlertModal;

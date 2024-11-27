@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom"; //child route를 렌더링하는 컴포넌트
-import BottomNavigationBar from "./BottomNavigationBar";
+import BottomNavigationBar from "../ui/BottomNavigationBar";
 import styled from "styled-components";
 
 const BottomNavigationLayout = () => {

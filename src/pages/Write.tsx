@@ -5,14 +5,15 @@ import { Form, Label, PageContainer, Textarea } from "../assets/styles/CommonSty
 import { getErrors, isMobile } from "../utils/functions/commons";
 import { useForm } from "react-hook-form";
 import useAlertModal from "../utils/hooks/useAlertModal";
-import AlertModal from "../components/AlertModal";
+import AlertModal from "../components/ui/AlertModal";
 import { createPortal } from "react-dom";
 import { IoMdCamera } from "react-icons/io";
 import { AiFillPicture } from "react-icons/ai";
 import EXIF from "exif-js";
 import useCompassData from "../utils/hooks/useCompassData";
 import { useUserDataStore } from "../utils/stores/userStore";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 
 type FormType = {
   content: string;
@@ -95,10 +96,20 @@ const Write = () => {
     choosePhoto(setPhoto);
   };
 
+  const navigate = useNavigate();
+  const pageBackButtonHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <PageContainer>
       <TitleContainer>
-        <PageTitleH1Ins>새 글을 작성할까요?</PageTitleH1Ins>
+        <PageTitleH1Ins>
+          <button onClick={pageBackButtonHandler}>
+            <IoIosArrowBack />
+          </button>
+          새 글을 작성할까요?
+        </PageTitleH1Ins>
         <SubmitButton onClick={handleSubmit(onSubmit)}>작성하기</SubmitButton>
       </TitleContainer>
       <FormContainer>
@@ -145,16 +156,27 @@ export default Write;
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
 `;
 
 const PageTitleH1Ins = styled.h1`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
 `;
 
 const SubmitButton = styled.button`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--thema-color);
+  border-radius: 18px;
 `;
 
 const FormContainer = styled.div`
@@ -170,6 +192,7 @@ const InputContainer = styled.div`
   align-items: center;
   width: 100%;
 `;
+
 const PhotoButtonContainer = styled.div`
   display: flex;
   flex-direction: row;

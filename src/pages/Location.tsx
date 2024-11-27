@@ -5,9 +5,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import styled from "styled-components";
 import useGetGeolocation from "../utils/hooks/useGetGeolocation";
 import useGooglePlaceData from "../utils/hooks/useGooglePlaceData";
-import MapMarker from "../components/MapMarker";
-import WriteButton from "../components/WriteButton";
-import MarkerDraggableButton from "../components/MarkerDraggableButton";
+import MapMarker from "../components/ui/MapMarker";
+import WriteButton from "../components/ui/WriteButton";
+import MarkerDraggableButton from "../components/ui/MarkerDraggableButton";
 
 const storage = window.localStorage;
 

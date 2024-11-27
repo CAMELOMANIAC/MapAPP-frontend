@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
-import RegisterProgress1 from "../components/RegisterProgress1";
+import RegisterProgress1 from "../components/container/RegisterProgress1";
 import { useForm } from "react-hook-form";
 import useAlertModal from "../utils/hooks/useAlertModal";
 import { createPortal } from "react-dom";
-import AlertModal from "../components/AlertModal";
+import AlertModal from "../components/ui/AlertModal";
 import { getErrors } from "../utils/functions/commons";
 import { useOutletContext } from "react-router-dom";
-import { LayoutButtonProps } from "../components/BottomButtonLayout";
+import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
 
 export type FormType = {
   name: string;

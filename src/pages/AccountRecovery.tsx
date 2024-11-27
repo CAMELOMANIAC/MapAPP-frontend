@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import { LayoutButtonProps } from "../components/BottomButtonLayout";
+import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
 const AccountRecovery = () => {
   //레이아웃 컨텍스트
   const { setButtonName, setButtonClickHandler } = useOutletContext<LayoutButtonProps>();

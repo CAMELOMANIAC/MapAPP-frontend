@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
-import { LayoutButtonProps } from "../components/BottomButtonLayout";
-import RegisterProgress1 from "../components/RegisterProgress1";
+import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
+import RegisterProgress1 from "../components/container/RegisterProgress1";
 import { useForm } from "react-hook-form";
-import ChangePwdProgress from "../components/ChangePwdProgress";
+import ChangePwdProgress from "../components/container/ChangePwdProgress";
 import useAlertModal from "../utils/hooks/useAlertModal";
 import { createPortal } from "react-dom";
-import AlertModal from "../components/AlertModal";
+import AlertModal from "../components/ui/AlertModal";
 import { getErrors } from "../utils/functions/commons";
 import { useOutletContext } from "react-router-dom";
 
