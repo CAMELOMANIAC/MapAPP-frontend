@@ -1,11 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import BottomNavigationLayout from "./components/layouts/BottomNavigationLayout";
 import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import BottomButtonLayout from "./components/layouts/BottomButtonLayout";
+import BottomNavigationLayout from "./components/layouts/BottomNavigationLayout";
+import LoadingScreen from "./components/ui/LoadingScreen";
 import IdRecovery from "./pages/IdRecovery";
 import NotFound from "./pages/NotFound";
 import PwdRecovery from "./pages/PwdRecovery";
-import LoadingScreen from "./components/ui/LoadingScreen";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));

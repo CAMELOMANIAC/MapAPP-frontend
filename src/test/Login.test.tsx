@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import Login from "../pages/Login";
+
 import BottomButtonLayout from "../components/layouts/BottomButtonLayout";
+import Login from "../pages/Login";
 
 test("아이디 인풋 태그 라벨 렌더링", async () => {
   render(

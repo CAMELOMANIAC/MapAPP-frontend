@@ -1,12 +1,13 @@
+import { setBackForwardNavigationGestures } from "capacitor-plugin-ios-webview-configurator";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
+import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import RegisterProgress1 from "../components/container/RegisterProgress1";
 import RegisterProgress2 from "../components/container/RegisterProgress2";
 import AlertModal from "../components/ui/AlertModal";
-import { createPortal } from "react-dom";
-import useAlertModal from "../utils/hooks/useAlertModal";
-import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import { isApple } from "../utils/functions/commons";
-import { setBackForwardNavigationGestures } from "capacitor-plugin-ios-webview-configurator";
+import useAlertModal from "../utils/hooks/useAlertModal";
 
 const Register = () => {
   const [progress, setProgress] = useState(0);

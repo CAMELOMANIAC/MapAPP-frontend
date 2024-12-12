@@ -1,10 +1,11 @@
-import styled from "styled-components";
-import { useUserDataStore } from "../../utils/stores/userStore";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import styled from "styled-components";
+
 import { Input, Label } from "../../assets/styles/CommonStyle";
+import { useUserDataStore } from "../../utils/stores/userStore";
 import { LayoutButtonProps } from "../layouts/BottomButtonLayout";
-import { useEffect } from "react";
 
 type FormType = {
   id: string;

@@ -1,19 +1,20 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { Form, Label, PageContainer, Textarea } from "../assets/styles/CommonStyle";
-import { getErrors, isMobile } from "../utils/functions/commons";
-import { useForm } from "react-hook-form";
-import useAlertModal from "../utils/hooks/useAlertModal";
-import AlertModal from "../components/ui/AlertModal";
-import { createPortal } from "react-dom";
-import { IoMdCamera } from "react-icons/io";
-import { AiFillPicture } from "react-icons/ai";
 import EXIF from "exif-js";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useForm } from "react-hook-form";
+import { AiFillPicture } from "react-icons/ai";
+import { IoMdCamera } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import { Form, Label, PageContainer, Textarea } from "../assets/styles/CommonStyle";
+import AlertModal from "../components/ui/AlertModal";
+import { getErrors, isMobile } from "../utils/functions/commons";
+import useAlertModal from "../utils/hooks/useAlertModal";
 import useCompassData from "../utils/hooks/useCompassData";
 import { useUserDataStore } from "../utils/stores/userStore";
-import { useLocation, useNavigate } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
 
 type FormType = {
   content: string;

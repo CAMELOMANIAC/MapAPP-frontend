@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserDataStore } from "../utils/stores/userStore";
-import SearchBar from "../components/ui/SearchBar";
 import { Link } from "react-router-dom";
+
 import ListContainer from "../components/ui/ListContainer";
+import SearchBar from "../components/ui/SearchBar";
+import { useUserDataStore } from "../utils/stores/userStore";
 
 const Home = () => {
   const navigate = useNavigate();

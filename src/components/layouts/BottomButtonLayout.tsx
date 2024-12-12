@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
 
 export type LayoutButtonProps = {
   setButtonName: (name: string) => void;

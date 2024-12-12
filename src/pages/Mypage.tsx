@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
 import { App } from "@capacitor/app";
-import { BackgroundTask } from "@capawesome/capacitor-background-task";
 import { LocalNotifications } from "@capacitor/local-notifications";
+import { BackgroundTask } from "@capawesome/capacitor-background-task";
+import { useEffect, useState } from "react";
+
 import { isMobile } from "../utils/functions/commons";
 
 const checkNotifications = async () => {

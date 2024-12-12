@@ -1,6 +1,7 @@
 import { RegisterOptions, useForm } from "react-hook-form";
-import { Input, InputContainer, InputDivider, Label } from "../../assets/styles/CommonStyle";
 import styled from "styled-components";
+
+import { Input, InputContainer, InputDivider, Label } from "../../assets/styles/CommonStyle";
 
 type DuplicateFormType = {
   onSubmit: (data: any) => void;

@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import LoginProgress from "../components/container/LoginProgress";
-import { Link } from "react-router-dom";
 import { useUserDataStore } from "../utils/stores/userStore";
 const Login = () => {
   const { setUserName } = useUserDataStore((state) => ({

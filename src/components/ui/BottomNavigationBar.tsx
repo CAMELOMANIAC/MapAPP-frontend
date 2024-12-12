@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { GoHomeFill } from "react-icons/go";
-import { FaLocationDot } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { GoHomeFill } from "react-icons/go";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 const BottomNavigationBar = () => {
   return (
