@@ -19,10 +19,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <BottomNavigationLayout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "search", element: <Search /> },
-    ],
+    children: [{ index: true, element: <Home /> }],
   },
   {
     path: "/location",
@@ -37,6 +34,11 @@ const router = createBrowserRouter([
         children: [{ index: true, element: <Write /> }],
       },
     ],
+  },
+  {
+    path: "/search",
+    element: <BottomNavigationLayout isNavHidden={true} />,
+    children: [{ index: true, element: <Search /> }],
   },
   {
     path: "/mypage",
