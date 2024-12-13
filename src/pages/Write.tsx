@@ -17,6 +17,7 @@ import useCompassData from "../utils/hooks/useCompassData";
 import { useUserDataStore } from "../utils/stores/userStore";
 
 type FormType = {
+  photo: string;
   content: string;
 };
 
@@ -41,7 +42,7 @@ const Write = () => {
     formState: { errors },
   } = useForm<FormType>({ mode: "onSubmit" });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormType) => {
     if (photo) {
       data.photo = photo;
       //이미지가 있으면 data에 photo라는 키로 base64로 인코딩된 이미지를 추가(일반적이라면 이미지를 이미지 서버에 저장하고 그 경로를 업로드 해야하지만 지금은 base64로 인코딩된 이미지 문자열 업로드)
@@ -239,7 +240,7 @@ const choosePhoto = async (setPhoto: (dataUrl: string) => void) => {
       source: CameraSource.Photos, // 갤러리에서 사진 선택
     });
 
-    image.dataUrl && setPhoto(image.dataUrl);
+    if (image.dataUrl) setPhoto(image.dataUrl);
   } catch (error) {
     if (error instanceof Error && error.message === "User cancelled photos app") {
       if (!isMobile) {
