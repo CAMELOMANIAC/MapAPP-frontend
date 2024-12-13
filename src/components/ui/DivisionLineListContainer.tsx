@@ -1,15 +1,15 @@
 import { HTMLAttributes, ReactNode } from "react";
 import styled from "styled-components";
 
-type ListContainerProps = {
+type DivisionLineListContainerProps = {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
-const ListContainer = ({ children, ...props }: ListContainerProps) => {
+const DivisionLineListContainer = ({ children, ...props }: DivisionLineListContainerProps) => {
   return <Container {...props}>{children}</Container>;
 };
 
-export default ListContainer;
+export default DivisionLineListContainer;
 
 const Container = styled.div`
   display: grid;
