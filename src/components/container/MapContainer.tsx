@@ -1,7 +1,15 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { useEffect, useState } from "react";
-import { Map, MapMouseEvent, Marker, NavigationControl, ViewStateChangeEvent } from "react-map-gl";
+import { TouchEvent, useEffect, useRef, useState } from "react";
+import {
+  Map,
+  MapMouseEvent,
+  MapRef,
+  MapTouchEvent,
+  Marker,
+  NavigationControl,
+  ViewStateChangeEvent,
+} from "react-map-gl";
 import { styled } from "styled-components";
 
 import useGetGeolocation from "../../utils/hooks/useGetGeolocation";
@@ -25,6 +33,7 @@ type Place = {
 const MapContainer = () => {
   const [markerPos, setMarkerPos] = useState<{ latitude: number; longitude: number } | undefined>();
   const [isPress, setIsPress] = useState(false);
+  const mapRef = useRef<MapRef>(null);
 
   const { setLocation, location, mapCenter, setMapCenter } = useUserDataStore((state) => ({
     setLocation: state.setLocation,
@@ -42,21 +51,42 @@ const MapContainer = () => {
   }, [currentLocation, setLocation]);
 
   //현재 보고있는 위치를 가져와서 렌더링 종료후에도 다시 사용할수있도록 저장
-  const onMoveEndHandler = (event: ViewStateChangeEvent) => {
-    const newCenter = {
-      latitude: event.viewState.latitude,
-      longitude: event.viewState.longitude,
-      zoom: event.viewState.zoom,
-    };
-    if (newCenter.latitude !== mapCenter.latitude || newCenter.longitude !== mapCenter.longitude) {
+  const mapCenterChangeHandler = <T extends ViewStateChangeEvent | MapTouchEvent>(event: T) => {
+    let newCenter;
+    if ("viewState" in event) {
+      newCenter = {
+        latitude: event.viewState.latitude,
+        longitude: event.viewState.longitude,
+        zoom: event.viewState.zoom,
+      };
+    } else {
+      if (mapRef.current) {
+        const center = mapRef.current.getMap().getCenter();
+        newCenter = {
+          latitude: center.lat,
+          longitude: center.lng,
+          zoom: mapRef.current.getMap().getZoom(),
+        };
+      }
+    }
+    if (newCenter && (newCenter.latitude !== mapCenter.latitude || newCenter.longitude !== mapCenter.longitude)) {
       setMapCenter(newCenter);
     }
   };
 
-  const onMouseMoveHandler = (e: MapMouseEvent) => {
+  const markerPositionChangeHandler = (e: MapMouseEvent | MapTouchEvent) => {
     if (isPress) {
       const { lng, lat } = e.lngLat;
       setMarkerPos({ latitude: lat, longitude: lng });
+    }
+  };
+
+  //터치 이벤트는 자기 외부에서 실행되면 추적이 안되서 터치위치를 추적해서 직접 변경
+  const markerPositionChangeTouchHandler = (event: TouchEvent<HTMLButtonElement>) => {
+    const { clientX, clientY } = event.touches[0];
+    if (mapRef.current) {
+      const point = mapRef.current.unproject([clientX, clientY]);
+      setMarkerPos({ latitude: point.lat, longitude: point.lng });
     }
   };
 
@@ -72,9 +102,16 @@ const MapContainer = () => {
         zoom: mapCenter?.zoom ?? 14,
       }}
       mapStyle="mapbox://styles/mapbox/outdoors-v11"
-      onMoveEnd={onMoveEndHandler}
-      onMouseMove={onMouseMoveHandler}
+      ref={mapRef}
+      onMoveEnd={mapCenterChangeHandler}
+      onMouseMove={markerPositionChangeHandler}
       onMouseUp={() => {
+        setIsPress(false);
+      }}
+      onTouchMove={(e) => {
+        markerPositionChangeHandler(e);
+      }}
+      onTouchCancel={() => {
         setIsPress(false);
       }}
     >
@@ -102,6 +139,16 @@ const MapContainer = () => {
         <MarkerDraggableButton
           onMouseDown={() => {
             setIsPress(true);
+          }}
+          onTouchStart={() => {
+            setIsPress(true);
+          }}
+          onTouchMove={markerPositionChangeTouchHandler}
+          onTouchCancel={() => {
+            setIsPress(false);
+          }}
+          onTouchEnd={() => {
+            setIsPress(false);
           }}
         ></MarkerDraggableButton>
         <WriteButton to={"/location/write"} state={markerPos} isVisible={markerPos !== undefined}></WriteButton>
