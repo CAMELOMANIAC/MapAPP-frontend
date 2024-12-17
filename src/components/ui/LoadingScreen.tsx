@@ -118,11 +118,12 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 50%;
-  z-index: 1000;
+  z-index: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
   overflow: hidden;
+  pointer-events: none;
   background-color: white;
   transition: opacity 0.5s;
   transform: translateX(-50%);

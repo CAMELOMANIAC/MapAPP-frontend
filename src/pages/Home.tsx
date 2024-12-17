@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import ListContainer from "../components/ui/ListContainer";
+import DivisionLineListContainer from "../components/ui/DivisionLineListContainer";
 import SearchBar from "../components/ui/SearchBar";
 import { useUserDataStore } from "../utils/stores/userStore";
 
@@ -24,12 +24,23 @@ const Home = () => {
       <Link to={"/search"}>
         <SearchBar></SearchBar>
       </Link>
-      <ListContainer>
+      <DivisionLineListContainer>
         <div>안녕하세요</div>
         <div>asdfasd</div>
         <div>asdfasd</div>
         <div>asdfasd</div>
-      </ListContainer>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+      </DivisionLineListContainer>
     </>
   );
 };

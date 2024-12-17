@@ -1,9 +1,12 @@
-import { App } from "@capacitor/app";
+//import { App } from "@capacitor/app";
 import { LocalNotifications } from "@capacitor/local-notifications";
-import { BackgroundTask } from "@capawesome/capacitor-background-task";
+//import { BackgroundTask } from "@capawesome/capacitor-background-task";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
+import BackgroundListItem from "../components/ui/BackgroundListItem";
 import { isMobile } from "../utils/functions/commons";
+import { useUserDataStore } from "../utils/stores/userStore";
 
 const checkNotifications = async () => {
   const { notifications } = await LocalNotifications.getPending();
@@ -118,8 +121,41 @@ const Mypage = () => {
     });
   }, []);
 
+  const { userName } = useUserDataStore((state) => ({ userName: state.userName }));
+
   return (
     <>
+      <Container>
+        <StickyHeaderListItem>{userName || "이름없음"}님 안녕하세요</StickyHeaderListItem>
+        <BackgroundListItem>
+          asdf
+          <p />
+          asdf
+          <p />
+          asdf
+          <p />
+          asdf
+          <p />
+        </BackgroundListItem>
+        <BackgroundListItem>
+          <p />
+          asdf
+          <p />
+        </BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+        <BackgroundListItem>asdfasdf</BackgroundListItem>
+      </Container>
       <p>{count}</p>
       <button onClick={() => setCount((prev) => (prev || 0) + 1)}>증가</button>
       <br />
@@ -132,3 +168,17 @@ const Mypage = () => {
 };
 
 export default Mypage;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+`;
+
+const StickyHeaderListItem = styled(BackgroundListItem)`
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  font-weight: bold;
+`;
