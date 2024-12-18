@@ -17,6 +17,7 @@ import useGooglePlaceData from "../../utils/hooks/useGooglePlaceData";
 import { useUserDataStore } from "../../utils/stores/userStore";
 import MapMarker from "../ui/MapMarker";
 import MarkerDraggableButton from "../ui/MarkerDraggableButton";
+import SearchBar from "../ui/SearchBar";
 import TestMapButton from "../ui/TestMapButton";
 import WriteButton from "../ui/WriteButton";
 
@@ -41,6 +42,7 @@ const MapContainer = () => {
     mapCenter: state.mapCenter,
     setMapCenter: state.setMapCenter,
   }));
+
   //현재 위치가 변경되면 구글 플레이스 API를 이용하여 주변 명소 데이터를 가져옴(테스트를 위해 현재위치를 기반으로 하나 나중에 맵 중앙을 기반으로 변경해야함)
   const { data, isSuccess } = useGooglePlaceData(location.latitude, location.longitude);
 
@@ -133,8 +135,11 @@ const MapContainer = () => {
           <img src={JSON.parse(storage.getItem("photo")!).photo} width={12} height={12} alt="사진" />
         </Marker>
       )}
-      <NavigationControl position="top-right" />
-      <TestMapButton location={location} />
+      <SearchBarContainer>
+        <SearchBar></SearchBar>
+        {/* <NavigationControl position="top-right" /> */}
+        <TestMapButton location={location} />
+      </SearchBarContainer>
       <MarkerButtonContainer>
         <MarkerDraggableButton
           onMouseDown={() => {
@@ -186,4 +191,9 @@ const MarkerButtonContainer = styled.div`
   flex-direction: row;
   width: 100%;
   padding: 2rem;
+`;
+
+const SearchBarContainer = styled.div`
+  position: relative;
+  padding: 1rem;
 `;
