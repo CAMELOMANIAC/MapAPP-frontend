@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -68,7 +69,15 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense
+      fallback={
+        <AnimatePresence>
+          <motion.div exit={{ opacity: 1 }} animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+            <LoadingScreen />
+          </motion.div>
+        </AnimatePresence>
+      }
+    >
       <RouterProvider router={router} />
     </Suspense>
   );
