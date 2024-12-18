@@ -1,20 +1,27 @@
+import { useEffect, useRef } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import SearchBar from "../components/ui/SearchBar";
+import TransparentSearchBar from "../components/ui/TransparentSearchBar";
 
 const Search = () => {
+  const searchBarRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    searchBarRef.current?.focus();
+  }, []);
+
   const navigate = useNavigate();
   const backButtonHandler = () => {
     navigate(-1);
   };
+
   return (
     <StickyHeader>
       <BackButton onClick={backButtonHandler}>
         <IoIosArrowBack />
       </BackButton>
-      <SearchBar></SearchBar>
+      <TransparentSearchBar ref={searchBarRef}></TransparentSearchBar>
     </StickyHeader>
   );
 };
@@ -26,6 +33,7 @@ const StickyHeader = styled.div`
   top: 0;
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid #e0e0e0;
 `;
 
 const BackButton = styled.button`
