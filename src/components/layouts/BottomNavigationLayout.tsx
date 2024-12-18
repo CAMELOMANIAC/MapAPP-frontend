@@ -1,29 +1,25 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Outlet, useLocation } from "react-router-dom"; //child route를 렌더링하는 컴포넌트
+import { useLocation, useOutlet } from "react-router-dom"; //child route를 렌더링하는 컴포넌트
 import styled from "styled-components";
 
 import BottomNavigationBar from "../ui/BottomNavigationBar";
-import LoadingScreen from "../ui/LoadingScreen";
 
 type BottomNavigationLayoutProps = {
   xMargin?: string;
   isNavHidden?: boolean;
 };
-const BottomNavigationLayout = ({ xMargin, isNavHidden }: BottomNavigationLayoutProps) => {
+const BottomNavigationLayout = ({ xMargin, isNavHidden = false }: BottomNavigationLayoutProps) => {
   const location = useLocation();
-
+  const outlet = useOutlet();
   return (
-    <>
-      <LoadingScreen></LoadingScreen>
-      <AnimatePresence>
-        <motion.div exit={{ opacity: 1 }} animate={{ opacity: 1 }} initial={{ opacity: 0 }} key={location.pathname}>
-          <Container $xMargin={xMargin} $isNavHidden={isNavHidden}>
-            <Outlet />
-          </Container>
-        </motion.div>
-        {!isNavHidden && <BottomNavigationBar />}
-      </AnimatePresence>
-    </>
+    <AnimatePresence key={location.pathname}>
+      <motion.div exit={{ opacity: 1 }} animate={{ opacity: 1 }} initial={{ opacity: 0 }} key={location.pathname}>
+        <Container $xMargin={xMargin} $isNavHidden={isNavHidden}>
+          {outlet}
+        </Container>
+      </motion.div>
+      {!isNavHidden && <BottomNavigationBar />}
+    </AnimatePresence>
   );
 };
 
