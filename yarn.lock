@@ -4272,11 +4272,6 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001646:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001651.tgz#52de59529e8b02b1aedcaaf5c05d9e23c0c28138"
   integrity sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==
 
-capacitor-native-compass@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/capacitor-native-compass/-/capacitor-native-compass-0.0.3.tgz#e56ada987f0c6d71e6e354dc24cf3f7cf609f362"
-  integrity sha512-8iKW3tgdBWQIHN1Wo86VN8Ea8V/PJjtX0mxxBJA5As/HRKFiJk2ofMqQ15bjX5wYiJ3UWfgKde2x4SJOZ/vrwg==
-
 capacitor-plugin-ios-webview-configurator@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/capacitor-plugin-ios-webview-configurator/-/capacitor-plugin-ios-webview-configurator-0.4.0.tgz#712de2f55622367c6daf72f28a2e32cc02b0707d"
@@ -6291,11 +6286,6 @@ execa@^5.0.0:
     onetime "^5.1.2"
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
-
-exif-js@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/exif-js/-/exif-js-2.3.0.tgz#9d10819bf571f873813e7640241255ab9ce1a814"
-  integrity sha512-1Og9pAzG2FZRVlaavH8bB8BTeHcjMdJhKmeQITkX+uLRCD0xPtKAdZ2clZmQdJ56p9adXtJ8+jwrGp/4505lYg==
 
 exit@^0.1.2:
   version "0.1.2"
