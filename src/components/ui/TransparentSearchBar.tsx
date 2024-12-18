@@ -16,7 +16,7 @@ const TransparentSearchBarInput = styled.input`
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  background-color: "transparent";
+  background-color: transparent;
   border: none;
   outline: none;
 `;
