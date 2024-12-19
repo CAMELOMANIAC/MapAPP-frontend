@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { AiFillPicture } from "react-icons/ai";
 import { IoMdCamera } from "react-icons/io";
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { Form, Label, Textarea } from "../../assets/styles/CommonStyle";
 import { choosePhoto, takePhoto } from "../../utils/functions/camera";
 import { isMobile } from "../../utils/functions/commons";
+import { useToast } from "../../utils/hooks/ToastProvider";
 const storage = window.localStorage;
 
 type FormType = {
@@ -19,20 +20,32 @@ type FormType = {
 const WriteForm = forwardRef((_props, ref) => {
   const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
   const location = useLocation();
+  const { addToast } = useToast();
 
-  const { register, handleSubmit } = useForm<FormType>({ mode: "onSubmit" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormType>({ mode: "onSubmit" });
 
   const onSubmit = (data: FormType) => {
     if (photo) {
       data.photo = photo;
       storage.setItem("photo", JSON.stringify({ photo: data.photo, location: location.state }));
     }
-    console.log("실행되나?", data);
+  };
+  const onError = (errors: FieldErrors<FormType>) => {
+    // 에러가 발생하면 토스트 메시지를 띄움
+    Object.values(errors).forEach((error) => {
+      if (error?.message) {
+        addToast(error.message);
+      }
+    });
   };
 
   //부모 컴포넌트에서 ref로 form의 submit 함수를 호출할 수 있도록 함
   useImperativeHandle(ref, () => ({
-    onSubmit: handleSubmit(onSubmit),
+    onSubmit: handleSubmit(onSubmit, onError),
   }));
 
   //takePhoto 함수는 비동기함수이므로 이벤트 핸들러로 사용할때는 함수를 한번 더 감싸줘야함
@@ -42,21 +55,24 @@ const WriteForm = forwardRef((_props, ref) => {
   const handleChoosePhoto = () => {
     choosePhoto(setPhoto);
   };
+
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <InputContainer>
           <Label htmlFor="content">내용</Label>
           <Textarea
             {...register("content", {
               required: { value: true, message: "내용을 입력해주세요" },
+              maxLength: { value: 500, message: "500자 이내로 입력해주세요" },
+              minLength: { value: 10, message: "10자이상" },
             })}
             placeholder="내용을 입력해주세요"
             id="content"
           ></Textarea>
         </InputContainer>
       </Form>
-
+      <button onClick={() => console.log("실행되나?", errors)}>test</button>
       {photo && <img src={photo} alt="pick_image" />}
       <PhotoButtonContainer>
         {isMobile() && (
