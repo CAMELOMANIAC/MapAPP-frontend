@@ -1,81 +1,23 @@
-import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { useForm } from "react-hook-form";
-import { AiFillPicture } from "react-icons/ai";
-import { IoMdCamera } from "react-icons/io";
+import { useRef } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { Form, Label, PageContainer, Textarea } from "../assets/styles/CommonStyle";
-import AlertModal from "../components/ui/AlertModal";
-import { getErrors, isMobile } from "../utils/functions/commons";
-import useAlertModal from "../utils/hooks/useAlertModal";
-import { useUserDataStore } from "../utils/stores/userStore";
-
-type FormType = {
-  photo: string;
-  content: string;
-};
-
-const storage = window.localStorage;
+import { PageContainer } from "../assets/styles/CommonStyle";
+import WriteForm from "../components/forms/WriteForm";
 
 const Write = () => {
-  const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
-  const [alertMessage, setAlertMessage] = useState("");
-  const { location } = useUserDataStore((state) => ({
-    location: state.location,
-  }));
-  const locat = useLocation();
-  const { state } = locat;
-  console.log("state", state);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormType>({ mode: "onSubmit" });
-
-  const onSubmit = (data: FormType) => {
-    if (photo) {
-      data.photo = photo;
-      storage.setItem("photo", JSON.stringify({ photo: data.photo, location: location }));
-    } else {
-      setAlertMessage("이미지를 업로드 해야합니다");
-    }
-  };
-
-  //모달 관리 커스텀후크
-  const { closeModal, isOpen, openModal } = useAlertModal();
-  const modalCloseHandler = () => {
-    closeModal();
-    setAlertMessage("");
-  };
-  useEffect(() => {
-    if (getErrors(errors) !== "") {
-      setAlertMessage(getErrors(errors));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors.content?.message]);
-
-  useEffect(() => {
-    if (alertMessage !== "") {
-      openModal();
-    }
-  }, [alertMessage, openModal]);
-
-  //takePhoto 함수는 비동기함수이므로 이벤트 핸들러로 사용할때는 함수를 한번 더 감싸줘야함
-  const handleTakePhoto = () => {
-    takePhoto(setPhoto);
-  };
-  const handleChoosePhoto = () => {
-    choosePhoto(setPhoto);
-  };
-
   const navigate = useNavigate();
   const pageBackButtonHandler = () => {
     navigate(-1);
+  };
+
+  //form의 submit 함수를 외부에서 호출하기 위해 ref를 사용
+  const writeFormRef = useRef<{ onSubmit: () => void }>(null);
+  const onSubmit = () => {
+    if (writeFormRef.current) {
+      writeFormRef.current.onSubmit();
+    }
   };
 
   return (
@@ -87,43 +29,9 @@ const Write = () => {
           </button>
           새 글을 작성할까요?
         </PageTitleH1Ins>
-        <SubmitButton onClick={handleSubmit(onSubmit)}>작성하기</SubmitButton>
+        <SubmitButton onClick={onSubmit}>작성하기</SubmitButton>
       </TitleContainer>
-      <FormContainer>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <InputContainer>
-            <Label htmlFor="content">내용</Label>
-            <Textarea
-              {...register("content", {
-                required: { value: true, message: "내용을 입력해주세요" },
-              })}
-              placeholder="내용을 입력해주세요"
-              id="content"
-            ></Textarea>
-          </InputContainer>
-        </Form>
-
-        {photo && <img src={photo} alt="pick_image" />}
-        <PhotoButtonContainer>
-          {isMobile() && (
-            <TakePhotoButton onClick={handleTakePhoto}>
-              카메라
-              <IoMdCamera />
-            </TakePhotoButton>
-          )}
-          <ChoosePhotoButton onClick={handleChoosePhoto}>
-            사진 선택
-            <AiFillPicture />
-          </ChoosePhotoButton>
-        </PhotoButtonContainer>
-      </FormContainer>
-
-      {createPortal(
-        <AlertModal isOpen={isOpen} closeModal={modalCloseHandler}>
-          {alertMessage}
-        </AlertModal>,
-        document.body
-      )}
+      <WriteForm ref={writeFormRef}></WriteForm>
     </PageContainer>
   );
 };
@@ -155,74 +63,3 @@ const SubmitButton = styled.button`
   background-color: var(--thema-color);
   border-radius: 18px;
 `;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const PhotoButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const TakePhotoButton = styled.button`
-  font-size: 2rem;
-`;
-const ChoosePhotoButton = styled.button`
-  font-size: 2rem;
-`;
-
-//카메라로 사진 찍기
-const takePhoto = async (setPhoto: (dataUrl: string) => void) => {
-  const image = await Camera.getPhoto({
-    quality: 90,
-    allowEditing: true,
-    resultType: CameraResultType.DataUrl,
-    source: CameraSource.Camera, // 기본 카메라앱 실행
-  });
-
-  if (image.dataUrl) {
-    setPhoto(image.dataUrl);
-  }
-  // 실제 이미지 파일 경로 반환시
-  // const image = await Camera.getPhoto({
-  //   quality: 90,
-  //   allowEditing: false,
-  //   resultType: CameraResultType.Uri, // 실제 이미지 파일 경로 반환
-  //   source: CameraSource.Camera,
-  // });
-
-  // console.log("Image Path:", image.path); // 실제 이미지 파일 경로
-};
-
-//갤러리에서 사진 선택
-const choosePhoto = async (setPhoto: (dataUrl: string) => void) => {
-  try {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Photos, // 갤러리에서 사진 선택
-    });
-
-    if (image.dataUrl) setPhoto(image.dataUrl);
-  } catch (error) {
-    if (error instanceof Error && error.message === "User cancelled photos app") {
-      if (!isMobile) {
-        //웹에서 사진 선택 취소시 오류를 던지는데, 웹에서는 몇가지 기능이 없어서 오류를 던지지만 기능상 상관없기 때문에 비워놓음
-      }
-    } else {
-      console.error(error);
-    }
-  }
-};
