@@ -7,6 +7,13 @@ const GlobalStyle = createGlobalStyle`
     max-width: 430px;
     padding: 0;
     margin: 0 auto;
+    user-select: none;
+  }
+
+  /* input과 textarea 태그에 대해 텍스트 선택 가능하게 설정 */
+  input,
+  textarea {
+    user-select: text;
   }
 
   /* 모든 요소에 box-sizing: border-box 적용 */

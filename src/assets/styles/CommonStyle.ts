@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const Form = styled.form`
@@ -57,4 +58,8 @@ export const PageTitleH1 = styled.h1`
   width: 100%;
   margin-bottom: 2rem;
   font-size: 1.5rem;
+`;
+
+export const MotionFragment = styled(motion.div)`
+  display: inherit;
 `;

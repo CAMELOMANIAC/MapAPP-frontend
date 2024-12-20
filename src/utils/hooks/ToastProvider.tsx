@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { createContext, ReactNode, useContext, useState } from "react";
 import styled from "styled-components";
 
+import { MotionFragment } from "../../assets/styles/CommonStyle";
 import ToastModal from "../../components/ui/ToastModal";
 
 type ToastProviderProps = {
@@ -89,9 +90,4 @@ const ToastBackground = styled.div`
   width: 100%;
   padding: 20px;
   pointer-events: none;
-`;
-
-const MotionFragment = styled(motion.div)`
-  display: inherit;
-  width: 100%;
 `;
