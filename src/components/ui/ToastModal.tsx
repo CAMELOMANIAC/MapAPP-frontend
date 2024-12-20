@@ -4,7 +4,7 @@ import { TbAlertCircle, TbAlertTriangle, TbCircleCheck } from "react-icons/tb";
 import { VscError } from "react-icons/vsc";
 import styled from "styled-components";
 
-import { ToastMessageTypes } from "../../utils/hooks/ToastProvider";
+import { ToastMessageTypes } from "../../utils/stores/toastStore";
 
 type ToastProps = {
   type: ToastMessageTypes;
