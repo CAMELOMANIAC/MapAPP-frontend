@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import styled from "styled-components";
 
 import { MotionFragment } from "../../assets/styles/CommonStyle";
-import { usePopupModalStore } from "../../utils/stores/popupStore";
+import { usePopupActon, usePopupState } from "../../utils/stores/popupStore";
 import PopupModal from "../ui/popup/PopupModal";
 
 type PopupProviderProps = {
@@ -11,12 +11,8 @@ type PopupProviderProps = {
 };
 
 const PopupProvider = ({ children }: PopupProviderProps) => {
-  const { content, isOpen, type, closePopup } = usePopupModalStore((state) => ({
-    content: state.content,
-    isOpen: state.isOpen,
-    type: state.type,
-    closePopup: state.closePopup,
-  }));
+  const { content, isOpen, type } = usePopupState();
+  const { closePopup } = usePopupActon();
 
   return (
     <>

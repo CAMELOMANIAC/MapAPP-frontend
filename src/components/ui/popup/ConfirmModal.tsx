@@ -1,7 +1,7 @@
-import React, { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import styled from "styled-components";
 
-import { usePopupModalStore } from "../../../utils/stores/popupStore";
+import { usePopupState } from "../../../utils/stores/popupStore";
 
 type ConfirmModalProps = {
   children?: ReactNode;
@@ -9,7 +9,7 @@ type ConfirmModalProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 const ConfirmModal = ({ children, onClose, ...props }: ConfirmModalProps) => {
-  const { confirmCallback } = usePopupModalStore((state) => ({ confirmCallback: state.confirmCallback }));
+  const { confirmCallback } = usePopupState();
   return (
     <ConfirmModalContainer {...props}>
       <ModalMessageContainer>{children}</ModalMessageContainer>
