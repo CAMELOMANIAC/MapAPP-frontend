@@ -9,13 +9,13 @@ import AlertModal from "../components/ui/AlertModal";
 import BackButton from "../components/ui/BackButton";
 import { isApple } from "../utils/functions/commons";
 import useAlertModal from "../utils/hooks/useAlertModal";
-import { usePopupModalStore } from "../utils/stores/popupStore";
+import { usePopupActon } from "../utils/stores/popupStore";
 
 const Register = () => {
   const [progress, setProgress] = useState(0);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const { openPopup } = usePopupModalStore((state) => ({ openPopup: state.openPopup }));
+  const { openPopup } = usePopupActon();
 
   useEffect(() => {
     if (isApple()) {

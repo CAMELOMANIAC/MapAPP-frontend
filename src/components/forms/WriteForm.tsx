@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Form, Label, Textarea } from "../../assets/styles/CommonStyle";
 import { choosePhoto, takePhoto } from "../../utils/functions/camera";
 import { isMobile } from "../../utils/functions/commons";
-import { useToast } from "../../utils/hooks/ToastProvider";
+import { useToastStore } from "../../utils/stores/toastStore";
 const storage = window.localStorage;
 
 type FormType = {
@@ -20,7 +20,7 @@ type FormType = {
 const WriteForm = forwardRef((_props, ref) => {
   const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
   const location = useLocation();
-  const { addToast } = useToast();
+  const { addToast } = useToastStore((state) => ({ addToast: state.addToast }));
   const { register, handleSubmit } = useForm<FormType>({ mode: "onSubmit" });
 
   const onSubmit = (data: FormType) => {

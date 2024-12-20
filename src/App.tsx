@@ -3,13 +3,13 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import PopupProvider from "./components/container/PopupProvider";
+import { ToastProvider } from "./components/container/ToastProvider";
 import BottomButtonLayout from "./components/layouts/BottomButtonLayout";
 import BottomNavigationLayout from "./components/layouts/BottomNavigationLayout";
 import LoadingScreen from "./components/ui/LoadingScreen";
 import IdRecovery from "./pages/IdRecovery";
 import NotFound from "./pages/NotFound";
 import PwdRecovery from "./pages/PwdRecovery";
-import { ToastProvider } from "./utils/hooks/ToastProvider";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
