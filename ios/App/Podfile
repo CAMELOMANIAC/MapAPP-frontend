@@ -16,7 +16,6 @@ def capacitor_pods
   pod 'CapacitorLocalNotifications', :path => '../../node_modules/@capacitor/local-notifications'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'CapawesomeCapacitorBackgroundTask', :path => '../../node_modules/@capawesome/capacitor-background-task'
-  pod 'CapacitorNativeCompass', :path => '../../node_modules/capacitor-native-compass'
   pod 'CapacitorPluginIosWebviewConfigurator', :path => '../../node_modules/capacitor-plugin-ios-webview-configurator'
 end
 
