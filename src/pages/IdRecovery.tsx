@@ -80,7 +80,7 @@ const IdRecovery = () => {
     <PageContainer>
       <PageTitleH1>
         <BackButton />
-        Henmy 아이디를 찾기위해
+        아이디를 찾기위해
         <br />
         본인인증을 진행해주세요
       </PageTitleH1>

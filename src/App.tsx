@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import PopupProvider from "./components/container/PopupProvider";
 import BottomButtonLayout from "./components/layouts/BottomButtonLayout";
 import BottomNavigationLayout from "./components/layouts/BottomNavigationLayout";
 import LoadingScreen from "./components/ui/LoadingScreen";
@@ -79,9 +80,11 @@ function App() {
         </AnimatePresence>
       }
     >
-      <ToastProvider>
-        <RouterProvider router={router} />
-      </ToastProvider>
+      <PopupProvider>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </PopupProvider>
     </Suspense>
   );
 }
