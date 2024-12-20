@@ -1,11 +1,12 @@
+import { defineCustomElements } from "@ionic/pwa-elements/loader";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
+
 import App from "./App";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import reportWebVitals from "./reportWebVitals";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalStyle from "./assets/styles/GlobalStyle";
-import { defineCustomElements } from "@ionic/pwa-elements/loader";
+import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 const queryClient = new QueryClient();

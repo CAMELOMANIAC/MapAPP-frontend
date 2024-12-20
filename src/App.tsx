@@ -1,11 +1,15 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import BottomNavigationLayout from "./components/BottomNavigationLayout";
+import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
-import BottomButtonLayout from "./components/BottomButtonLayout";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import PopupProvider from "./components/container/PopupProvider";
+import BottomButtonLayout from "./components/layouts/BottomButtonLayout";
+import BottomNavigationLayout from "./components/layouts/BottomNavigationLayout";
+import LoadingScreen from "./components/ui/LoadingScreen";
 import IdRecovery from "./pages/IdRecovery";
 import NotFound from "./pages/NotFound";
 import PwdRecovery from "./pages/PwdRecovery";
-import LoadingScreen from "./components/LoadingScreen";
+import { ToastProvider } from "./utils/hooks/ToastProvider";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,13 +22,31 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <BottomNavigationLayout />,
+    children: [{ index: true, element: <Home /> }],
+  },
+  {
+    path: "/location",
     children: [
-      { index: true, element: <Home /> },
-      { path: "location", element: <Location /> },
-      { path: "search", element: <Search /> },
-      { path: "mypage", element: <Mypage /> },
-      { path: "write", element: <Write /> },
+      {
+        element: <BottomNavigationLayout xMargin="0px" />,
+        children: [{ index: true, element: <Location /> }],
+      },
+      {
+        path: "write",
+        element: <BottomNavigationLayout />,
+        children: [{ index: true, element: <Write /> }],
+      },
     ],
+  },
+  {
+    path: "/search",
+    element: <BottomNavigationLayout isNavHidden={true} />,
+    children: [{ index: true, element: <Search /> }],
+  },
+  {
+    path: "/mypage",
+    element: <BottomNavigationLayout xMargin="0px" />,
+    children: [{ index: true, element: <Mypage /> }],
   },
   {
     path: "/login",
@@ -49,8 +71,20 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Suspense fallback={<LoadingScreen />}>
-      <RouterProvider router={router} />
+    <Suspense
+      fallback={
+        <AnimatePresence>
+          <motion.div exit={{ opacity: 1 }} animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+            <LoadingScreen />
+          </motion.div>
+        </AnimatePresence>
+      }
+    >
+      <PopupProvider>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </PopupProvider>
     </Suspense>
   );
 }

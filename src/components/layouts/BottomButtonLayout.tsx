@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
 
 export type LayoutButtonProps = {
   setButtonName: (name: string) => void;
@@ -22,16 +22,16 @@ const BottomButtonLayout = () => {
 export default BottomButtonLayout;
 
 const Container = styled.main`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   padding: 20px;
 `;
 
 const Button = styled.button`
   width: 100%;
   height: 3rem;
-  border: 1px solid #000;
   margin-top: auto;
+  border: 1px solid #000;
 `;

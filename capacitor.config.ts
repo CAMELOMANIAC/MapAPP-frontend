@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.camelomaniac.chat",
-  appName: "henmy-front",
+  appName: "BBangDangE",
   webDir: "build",
   backgroundColor: "#ffffff",
   ios: {

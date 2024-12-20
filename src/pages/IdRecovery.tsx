@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
-import RegisterProgress1 from "../components/RegisterProgress1";
-import { useForm } from "react-hook-form";
-import useAlertModal from "../utils/hooks/useAlertModal";
 import { createPortal } from "react-dom";
-import AlertModal from "../components/AlertModal";
-import { getErrors } from "../utils/functions/commons";
+import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
-import { LayoutButtonProps } from "../components/BottomButtonLayout";
+
+import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
+import RegisterProgress1 from "../components/container/RegisterProgress1";
+import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
+import AlertModal from "../components/ui/AlertModal";
+import BackButton from "../components/ui/BackButton";
+import { getErrors } from "../utils/functions/commons";
+import useAlertModal from "../utils/hooks/useAlertModal";
 
 export type FormType = {
   name: string;
@@ -77,7 +79,8 @@ const IdRecovery = () => {
   return (
     <PageContainer>
       <PageTitleH1>
-        Henmy 아이디를 찾기위해
+        <BackButton />
+        아이디를 찾기위해
         <br />
         본인인증을 진행해주세요
       </PageTitleH1>

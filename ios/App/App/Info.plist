@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>en</string>
 		<key>CFBundleDisplayName</key>
-		<string>henmy-front</string>
+		<string>BBangDangE</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -55,16 +55,16 @@
 		<string>사진을 찍은 방향 정보를 얻기 위해 가속도계 권한이 필요합니다</string>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<true />
-        <key>CFBundleURLTypes</key>
-        <array>
-          <dict>
-            <key>CFBundleURLName</key>
-            <string>com.getcapacitor.capacitor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-              <string>mycustomscheme</string>
-            </array>
-          </dict>
-        </array>
-    </dict>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>com.getcapacitor.capacitor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>mycustomscheme</string>
+				</array>
+			</dict>
+		</array>
+	</dict>
 </plist>

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
-import { LayoutButtonProps } from "../components/BottomButtonLayout";
-import RegisterProgress1 from "../components/RegisterProgress1";
-import { useForm } from "react-hook-form";
-import ChangePwdProgress from "../components/ChangePwdProgress";
-import useAlertModal from "../utils/hooks/useAlertModal";
 import { createPortal } from "react-dom";
-import AlertModal from "../components/AlertModal";
-import { getErrors } from "../utils/functions/commons";
+import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
+
+import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
+import ChangePwdProgress from "../components/container/ChangePwdProgress";
+import RegisterProgress1 from "../components/container/RegisterProgress1";
+import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
+import AlertModal from "../components/ui/AlertModal";
+import BackButton from "../components/ui/BackButton";
+import { getErrors } from "../utils/functions/commons";
+import useAlertModal from "../utils/hooks/useAlertModal";
 
 export type FormType = {
   name: string;
@@ -104,7 +106,10 @@ const IdRecovery = () => {
     <PageContainer>
       {progress === 0 ? (
         <>
-          <PageTitleH1>Henmy 비밀번호를 찾을게요</PageTitleH1>
+          <PageTitleH1>
+            <BackButton />
+            비밀번호를 찾을게요
+          </PageTitleH1>
           <RegisterProgress1 setAlertMessage={setAlertMessage} setProgress={setProgress} />
         </>
       ) : (

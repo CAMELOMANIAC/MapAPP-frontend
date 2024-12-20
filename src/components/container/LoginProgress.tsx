@@ -1,10 +1,11 @@
-import styled from "styled-components";
-import { useUserDataStore } from "../utils/stores/userStore";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Input, Label } from "../assets/styles/CommonStyle";
-import { LayoutButtonProps } from "./BottomButtonLayout";
-import { useEffect } from "react";
+import styled from "styled-components";
+
+import { Input, Label } from "../../assets/styles/CommonStyle";
+import { useUserDataStore } from "../../utils/stores/userStore";
+import { LayoutButtonProps } from "../layouts/BottomButtonLayout";
 
 type FormType = {
   id: string;
@@ -80,15 +81,15 @@ const LoginProgress = () => {
 export default LoginProgress;
 
 const Form = styled.form`
-  width: 100%;
-  flex-grow: 1;
   display: flex;
-  justify-content: flex-end;
+  flex-grow: 1;
   flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const InputContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;

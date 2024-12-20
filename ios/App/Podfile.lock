@@ -8,8 +8,6 @@ PODS:
   - CapacitorCordova (6.1.2)
   - CapacitorLocalNotifications (6.1.0):
     - Capacitor
-  - CapacitorNativeCompass (0.0.3):
-    - Capacitor
   - CapacitorPluginIosWebviewConfigurator (0.0.1):
     - Capacitor
   - CapacitorSplashScreen (6.0.2):
@@ -23,7 +21,6 @@ DEPENDENCIES:
   - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
-  - CapacitorNativeCompass (from `../../node_modules/capacitor-native-compass`)
   - CapacitorPluginIosWebviewConfigurator (from `../../node_modules/capacitor-plugin-ios-webview-configurator`)
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapawesomeCapacitorBackgroundTask (from `../../node_modules/@capawesome/capacitor-background-task`)"
@@ -39,8 +36,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorLocalNotifications:
     :path: "../../node_modules/@capacitor/local-notifications"
-  CapacitorNativeCompass:
-    :path: "../../node_modules/capacitor-native-compass"
   CapacitorPluginIosWebviewConfigurator:
     :path: "../../node_modules/capacitor-plugin-ios-webview-configurator"
   CapacitorSplashScreen:
@@ -54,11 +49,10 @@ SPEC CHECKSUMS:
   CapacitorCamera: ed022171dbf3853e68eec877b4d78995378af6b7
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
   CapacitorLocalNotifications: 6bac9e948b2b8852506c6d74abb2cde140250f86
-  CapacitorNativeCompass: 8cc6bed47ec38eaf85ac69452a57c5f7bd28544f
   CapacitorPluginIosWebviewConfigurator: 4090b21ed635a5676718436bbbf386191d077271
   CapacitorSplashScreen: 250df9ef8014fac5c7c1fd231f0f8b1d8f0b5624
   CapawesomeCapacitorBackgroundTask: e65f6ca09586bd33af10d4c4ed7f04248b38b785
 
-PODFILE CHECKSUM: a1c47fd45c09db5cfab63dd86c6a4d252f346dd1
+PODFILE CHECKSUM: f2449f1a8dd0d8cedc38884e1fe4a34ec9743a2f
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

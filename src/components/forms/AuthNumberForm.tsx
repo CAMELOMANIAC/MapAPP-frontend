@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import DuplicateForm from "./DuplicateForm";
 import styled from "styled-components";
+
+import DuplicateForm from "./DuplicateForm";
 
 type AuthNumberFormType = {
   setIsAuth: Dispatch<SetStateAction<boolean>>;

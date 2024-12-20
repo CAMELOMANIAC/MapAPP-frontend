@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import { Form, Input, InputContainer, InputDivider, Label } from "../assets/styles/CommonStyle";
-import { useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import styled from "styled-components";
+import { useForm } from "react-hook-form";
 import { useOutletContext } from "react-router-dom";
-import { LayoutButtonProps } from "./BottomButtonLayout";
-import AuthNumberForm from "./AuthNumberForm";
+import styled from "styled-components";
+
+import { Form, Input, InputContainer, InputDivider, Label } from "../../assets/styles/CommonStyle";
+import AuthNumberForm from "../forms/AuthNumberForm";
+import { LayoutButtonProps } from "../layouts/BottomButtonLayout";
 
 type RegisterProgress1Type = {
-  setProgress?: React.Dispatch<React.SetStateAction<number>>;
-  setAlertMessage: React.Dispatch<React.SetStateAction<string>>;
+  setProgress?: Dispatch<SetStateAction<number>>;
+  setAlertMessage: Dispatch<SetStateAction<string>>;
 };
 type FormType = {
   name: string;
