@@ -2,15 +2,24 @@ import { AnimatePresence, motion } from "framer-motion";
 import { createContext, ReactNode, useContext, useState } from "react";
 import styled from "styled-components";
 
+import ToastModal from "../../components/ui/ToastModal";
+
 type ToastProviderProps = {
   children?: ReactNode;
 };
 type ToastContextType = {
   removeToast: (id: number) => void;
-  addToast: (message: string | ReactNode, duration?: number) => void;
+  addToast: (message: ReactNode, type?: ToastMessageTypes, duration?: number) => void;
   ToastArray: ToastArray;
 };
-type Toast = { id: number; message: ReactNode };
+export type ToastMessageTypes = "success" | "error" | "info" | "warning";
+type Toast = {
+  id: number;
+  message: ReactNode;
+  type: ToastMessageTypes;
+  duration: number;
+  timerId: ReturnType<typeof setTimeout>;
+};
 type ToastArray = Toast[];
 
 const ToastContext = createContext<ToastContextType | null>(null);
@@ -22,12 +31,19 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const removeToast = (id: number) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    setToasts((prev) =>
+      prev.filter((toast) => {
+        if (toast.id === id) {
+          clearTimeout(toast.timerId);
+        }
+        return toast.id !== id;
+      })
+    );
   };
-  const addToast = (message: string | ReactNode, duration = 3000) => {
-    const newToast = { id: nextId++, message };
+  const addToast = (message: ReactNode, type: ToastMessageTypes = "error", duration = 3000) => {
+    const timerId: ReturnType<typeof setTimeout> = setTimeout(() => removeToast(newToast.id), duration);
+    const newToast = { id: nextId++, message, type, duration, timerId };
     setToasts((prev) => [...prev, newToast]);
-    setTimeout(() => removeToast(newToast.id), duration);
   };
 
   return (
@@ -45,7 +61,9 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
               onClick={() => removeToast(toastItem.id)}
               key={toastItem.id}
             >
-              <ToastContainer>{toastItem.message}</ToastContainer>
+              <ToastModal type={toastItem.type} duration={toastItem.duration}>
+                {toastItem.message}
+              </ToastModal>
             </MotionFragment>
           ))}
         </AnimatePresence>
@@ -70,19 +88,7 @@ const ToastBackground = styled.div`
   gap: 10px;
   width: 100%;
   padding: 20px;
-`;
-
-const ToastContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 100px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+  pointer-events: none;
 `;
 
 const MotionFragment = styled(motion.div)`
