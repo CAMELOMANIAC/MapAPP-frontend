@@ -21,24 +21,20 @@ const WriteForm = forwardRef((_props, ref) => {
   const [photo, setPhoto] = useState<string | null>(null); //base64로 인코딩된 이미지
   const location = useLocation();
   const { addToast } = useToast();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormType>({ mode: "onSubmit" });
+  const { register, handleSubmit } = useForm<FormType>({ mode: "onSubmit" });
 
   const onSubmit = (data: FormType) => {
     if (photo) {
       data.photo = photo;
       storage.setItem("photo", JSON.stringify({ photo: data.photo, location: location.state }));
     }
+    addToast("글을 작성했어요", "success");
   };
   const onError = (errors: FieldErrors<FormType>) => {
     // 에러가 발생하면 토스트 메시지를 띄움
     Object.values(errors).forEach((error) => {
       if (error?.message) {
-        addToast(error.message);
+        addToast(error.message, "warning");
       }
     });
   };
@@ -65,14 +61,13 @@ const WriteForm = forwardRef((_props, ref) => {
             {...register("content", {
               required: { value: true, message: "내용을 입력해주세요" },
               maxLength: { value: 500, message: "500자 이내로 입력해주세요" },
-              minLength: { value: 10, message: "10자이상" },
+              minLength: { value: 10, message: "10자 이상 입력해주세요" },
             })}
             placeholder="내용을 입력해주세요"
             id="content"
           ></Textarea>
         </InputContainer>
       </Form>
-      <button onClick={() => console.log("실행되나?", errors)}>test</button>
       {photo && <img src={photo} alt="pick_image" />}
       <PhotoButtonContainer>
         {isMobile() && (
