@@ -30,7 +30,7 @@ const SearchContainer = styled.div`
   font-size: 16px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+  box-shadow: 0 0 10px rgb(0 0 0 / 20%);
 `;
 
 const SearchBarInput = styled.input`

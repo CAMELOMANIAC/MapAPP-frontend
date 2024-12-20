@@ -1,17 +1,11 @@
 import { useRef } from "react";
-import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { PageContainer } from "../assets/styles/CommonStyle";
 import WriteForm from "../components/forms/WriteForm";
+import BackButton from "../components/ui/BackButton";
 
 const Write = () => {
-  const navigate = useNavigate();
-  const pageBackButtonHandler = () => {
-    navigate(-1);
-  };
-
   //form의 submit 함수를 외부에서 호출하기 위해 ref를 사용
   const writeFormRef = useRef<{ onSubmit: () => void }>(null);
   const onSubmit = () => {
@@ -24,10 +18,7 @@ const Write = () => {
     <PageContainer>
       <TitleContainer>
         <PageTitleH1Ins>
-          <button onClick={pageBackButtonHandler}>
-            <IoIosArrowBack />
-          </button>
-          새 글을 작성할까요?
+          <BackButton />새 글을 작성할까요?
         </PageTitleH1Ins>
         <SubmitButton onClick={onSubmit}>작성하기</SubmitButton>
       </TitleContainer>

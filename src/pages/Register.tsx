@@ -6,6 +6,7 @@ import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import RegisterProgress1 from "../components/container/RegisterProgress1";
 import RegisterProgress2 from "../components/container/RegisterProgress2";
 import AlertModal from "../components/ui/AlertModal";
+import BackButton from "../components/ui/BackButton";
 import { isApple } from "../utils/functions/commons";
 import useAlertModal from "../utils/hooks/useAlertModal";
 
@@ -35,6 +36,7 @@ const Register = () => {
   return (
     <PageContainer>
       <PageTitleH1>
+        <BackButton />
         henmy 이용을 위해
         <br />
         회원가입을 진행해주세요

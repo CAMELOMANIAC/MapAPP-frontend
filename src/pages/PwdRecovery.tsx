@@ -8,6 +8,7 @@ import ChangePwdProgress from "../components/container/ChangePwdProgress";
 import RegisterProgress1 from "../components/container/RegisterProgress1";
 import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
 import AlertModal from "../components/ui/AlertModal";
+import BackButton from "../components/ui/BackButton";
 import { getErrors } from "../utils/functions/commons";
 import useAlertModal from "../utils/hooks/useAlertModal";
 
@@ -105,7 +106,10 @@ const IdRecovery = () => {
     <PageContainer>
       {progress === 0 ? (
         <>
-          <PageTitleH1>Henmy 비밀번호를 찾을게요</PageTitleH1>
+          <PageTitleH1>
+            <BackButton />
+            비밀번호를 찾을게요
+          </PageTitleH1>
           <RegisterProgress1 setAlertMessage={setAlertMessage} setProgress={setProgress} />
         </>
       ) : (

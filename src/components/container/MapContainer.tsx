@@ -1,15 +1,7 @@
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import { TouchEvent, useEffect, useRef, useState } from "react";
-import {
-  Map,
-  MapMouseEvent,
-  MapRef,
-  MapTouchEvent,
-  Marker,
-  NavigationControl,
-  ViewStateChangeEvent,
-} from "react-map-gl";
+import { Map, MapMouseEvent, MapRef, MapTouchEvent, Marker, ViewStateChangeEvent } from "react-map-gl";
 import { styled } from "styled-components";
 
 import useGetGeolocation from "../../utils/hooks/useGetGeolocation";

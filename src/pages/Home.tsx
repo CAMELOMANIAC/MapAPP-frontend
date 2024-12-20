@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import DivisionLineListContainer from "../components/ui/DivisionLineListContainer";
 import SearchBar from "../components/ui/SearchBar";
@@ -21,11 +21,19 @@ const Home = () => {
 
   return (
     <>
-      <Link to={"/search"}>
-        <SearchBar></SearchBar>
-      </Link>
+      <StickyHeader>
+        <SearchBar />
+      </StickyHeader>
       <DivisionLineListContainer>
         <div>안녕하세요</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
+        <div>asdfasd</div>
         <div>asdfasd</div>
         <div>asdfasd</div>
         <div>asdfasd</div>
@@ -46,3 +54,8 @@ const Home = () => {
 };
 
 export default Home;
+
+const StickyHeader = styled.div`
+  position: sticky;
+  top: 0;
+`;

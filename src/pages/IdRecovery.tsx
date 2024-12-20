@@ -7,6 +7,7 @@ import { PageContainer, PageTitleH1 } from "../assets/styles/CommonStyle";
 import RegisterProgress1 from "../components/container/RegisterProgress1";
 import { LayoutButtonProps } from "../components/layouts/BottomButtonLayout";
 import AlertModal from "../components/ui/AlertModal";
+import BackButton from "../components/ui/BackButton";
 import { getErrors } from "../utils/functions/commons";
 import useAlertModal from "../utils/hooks/useAlertModal";
 
@@ -78,6 +79,7 @@ const IdRecovery = () => {
   return (
     <PageContainer>
       <PageTitleH1>
+        <BackButton />
         Henmy 아이디를 찾기위해
         <br />
         본인인증을 진행해주세요
